@@ -1,3 +1,3 @@
-import { versionCommand } from './version';
+const versionCommand = require('./version');
 
 console.info(versionCommand.name);

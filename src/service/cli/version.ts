@@ -4,10 +4,9 @@ import {CliAction} from "../../types/cli-action";
 const packageJsonFile = require("../../../package.json");
 const version: string = (packageJsonFile as IPackageJson).version;
 
-export const versionCommand: CliAction = {
+export = {
   name: '--version',
   run() {
     console.info(version)
   }
-};
-
+} as CliAction;
