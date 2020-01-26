@@ -1,13 +1,13 @@
 import {IPackageJson} from "package-json-type";
 import {CliAction} from "../../types/cli-action";
 
-const packageJsonFile = require("../../../package.json");
+const packageJsonFile = require(`../../../package.json`);
 const version: string = (packageJsonFile as IPackageJson).version;
 
 const cliAction: CliAction = {
-  name: '--version',
+  name: `--version`,
   run() {
-    console.info(version)
+    console.info(version);
   },
 };
 

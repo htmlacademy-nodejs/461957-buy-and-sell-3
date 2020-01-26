@@ -1,9 +1,9 @@
 import {CliAction} from "../../types/cli-action";
 import {Offer} from "../../types/offer";
-const fs = require('fs');
-const {promisify} = require('util');
+const fs = require(`fs`);
+const {promisify} = require(`util`);
 const writeFileAsync = promisify(fs.writeFile);
-const {getRandomInt, shuffle} = require("../../utils");
+const {getRandomInt, shuffle} = require(`../../utils`);
 
 const DEFAULT_COUNT = 1;
 const FILE_NAME = `mocks.json`;
@@ -56,15 +56,15 @@ function generateOffers(count: number): Offer[] {
     title: TITLES[getRandomInt(0, TITLES.length - 1)],
     type: Object.keys(OfferType)[Math.floor(Math.random() * Object.keys(OfferType).length)],
     sum: getRandomInt(SumRestrict.min, SumRestrict.max),
-  }))
+  }));
 }
 
 function getPictureFileName(amount: number): string {
-  return amount > 10 ? `item${amount}.jpg` : `item0${amount}.jpg`
+  return amount > 10 ? `item${amount}.jpg` : `item0${amount}.jpg`;
 }
 
 const cliAction: CliAction = {
-  name: '--generate',
+  name: `--generate`,
   run(args?) {
     const [count] = args;
     const countOffers = Number.parseInt(count, 10) || DEFAULT_COUNT;
