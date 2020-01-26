@@ -65,10 +65,10 @@ function getPictureFileName(amount: number): string {
 
 const cliAction: CliAction = {
   name: `--generate`,
-  run(args?) {
+  async run(args?) {
     const [count] = args;
     const countOffers = Number.parseInt(count, 10) || DEFAULT_COUNT;
-    writeFileAsync(FILE_NAME, JSON.stringify(generateOffers(countOffers), undefined, 2));
+    await writeFileAsync(FILE_NAME, JSON.stringify(generateOffers(countOffers), undefined, 2));
   }
 };
 
