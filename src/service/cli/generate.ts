@@ -1,6 +1,8 @@
 import {CliAction} from "../../types/cli-action";
 import {Offer} from "../../types/offer";
-
+const fs = require('fs');
+const {promisify} = require('util');
+const writeFileAsync = promisify(fs.writeFile);
 const {getRandomInt, shuffle} = require("../../utils");
 
 const DEFAULT_COUNT = 1;
@@ -63,8 +65,10 @@ function getPictureFileName(amount: number): string {
 
 const cliAction: CliAction = {
   name: '--generate',
-  run() {
-    return generateOffers(1);
+  run(args?) {
+    const [count] = args;
+    const countOffers = Number.parseInt(count, 10) || DEFAULT_COUNT;
+    writeFileAsync(FILE_NAME, JSON.stringify(generateOffers(countOffers), undefined, 2));
   }
 };
 

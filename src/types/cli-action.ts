@@ -1,4 +1,4 @@
 export interface CliAction {
   name: string,
-  run: VoidFunction,
+  run: any,
 }
