@@ -1,8 +1,6 @@
 import {CliAction} from "../../types/cli-action";
 import {Offer} from "../../types/offer";
-const fs = require(`fs`);
-const {promisify} = require(`util`);
-const writeFileAsync = promisify(fs.writeFile);
+const fs = require(`fs`).promises;
 const {getRandomInt, shuffle} = require(`../../utils`);
 const chalk = require(`chalk`);
 
@@ -69,7 +67,7 @@ const cliAction: CliAction = {
   async run(args?) {
     const [count] = args;
     const countOffers = Number.parseInt(count, 10) || DEFAULT_COUNT;
-    await writeFileAsync(FILE_NAME, JSON.stringify(generateOffers(countOffers), undefined, 2));
+    await fs.writeFile(FILE_NAME, JSON.stringify(generateOffers(countOffers), undefined, 2));
     console.log(chalk.green(`${countOffers} offer(s) saved to ${FILE_NAME}`));
   }
 };
