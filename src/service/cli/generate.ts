@@ -60,8 +60,13 @@ const cliAction: CliAction = {
     const [count] = args;
     const countOffers = Number.parseInt(count, 10) || DEFAULT_COUNT;
     const content = generateOffers(countOffers, categories, sentences, titles);
-    await fs.writeFile(FILE_NAME, JSON.stringify(content, undefined, 2));
-    console.log(chalk.green(`${countOffers} offer(s) saved to ${FILE_NAME}`));
+    try {
+      await fs.writeFile(FILE_NAME, JSON.stringify(content, undefined, 2));
+      console.log(chalk.green(`${countOffers} offer(s) saved to ${FILE_NAME}`));
+    } catch (e) {
+      console.error(chalk.red(`Fail to write file ${FILE_NAME}`));
+      console.error(chalk.red(e));
+    }
   }
 };
 
