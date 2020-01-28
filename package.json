@@ -27,5 +27,8 @@
     "ts-node": "8.6.2",
     "typescript": "3.7.5",
     "package-json-type": "^1.0.3"
+  },
+  "dependencies": {
+    "chalk": "3.0.0"
   }
 }
