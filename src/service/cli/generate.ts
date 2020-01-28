@@ -3,6 +3,7 @@ import {Offer} from "../../types/offer";
 const fs = require(`fs`).promises;
 const {getRandomInt, shuffle} = require(`../../utils`);
 const chalk = require(`chalk`);
+const {ExitCode} = require(`../../constants`);
 
 const DEFAULT_COUNT = 1;
 const FILE_NAME = `mocks.json`;
@@ -66,6 +67,10 @@ const cliAction: CliAction = {
   name: `--generate`,
   async run(args?) {
     const [count] = args;
+    if (count > 1000) {
+      console.error(chalk.red(`Не больше 1000 публикаций, введенное значение: ${count}`));
+      process.exit(ExitCode.success);
+    }
     const countOffers = Number.parseInt(count, 10) || DEFAULT_COUNT;
     await fs.writeFile(FILE_NAME, JSON.stringify(generateOffers(countOffers), undefined, 2));
     console.log(chalk.green(`${countOffers} offer(s) saved to ${FILE_NAME}`));
