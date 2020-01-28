@@ -4,6 +4,7 @@ const fs = require(`fs`);
 const {promisify} = require(`util`);
 const writeFileAsync = promisify(fs.writeFile);
 const {getRandomInt, shuffle} = require(`../../utils`);
+const {ExitCode} = require(`../../constants`);
 
 const DEFAULT_COUNT = 1;
 const FILE_NAME = `mocks.json`;
@@ -67,6 +68,10 @@ const cliAction: CliAction = {
   name: `--generate`,
   async run(args?) {
     const [count] = args;
+    if (count > 1000) {
+      console.error((`Не больше 1000 публикаций, введенное значение: ${count}`));
+      process.exit(ExitCode.success);
+    }
     const countOffers = Number.parseInt(count, 10) || DEFAULT_COUNT;
     await writeFileAsync(FILE_NAME, JSON.stringify(generateOffers(countOffers), undefined, 2));
   }
