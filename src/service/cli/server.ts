@@ -10,6 +10,7 @@ function getResponseMarkup(userAgent: string) {
   <html lang="ru">
   <head>
     <title>From Node with love!</title>
+    <link rel="stylesheet" href="style.css">
   </head>
   <body>
     <h1>Привет!</h1>
@@ -18,12 +19,39 @@ function getResponseMarkup(userAgent: string) {
 </html>`
 }
 
+const styles = `
+h1 {
+  color: red;
+  font-size: 24px;
+}
+
+p {
+  color: green;
+  font-size: 16px;
+}`;
+
 function onClientConnect(req, res) {
-  const userAgent = req.headers[`user-agent`];
-  res.writeHead(HTTP_CODES.OK, {
-    'content-type': CONTENT_TYPE.html,
-  });
-  res.end(getResponseMarkup(userAgent));
+
+  switch (req.url) {
+    case `/style.css`:
+      res.writeHead(HTTP_CODES.OK, {
+        'content-type': CONTENT_TYPE.css,
+      });
+      res.end(styles);
+      break;
+    case '/':
+      const userAgent = req.headers[`user-agent`];
+      res.writeHead(HTTP_CODES.OK, {
+        'content-type': CONTENT_TYPE.html,
+      });
+      res.end(getResponseMarkup(userAgent));
+      break;
+    default:
+      res.writeHead(HTTP_CODES.notFound, {
+        'content-type': CONTENT_TYPE.plain,
+      });
+      res.end(`404: Not found`);
+  }
 }
 
 const cliAction: CliAction = {

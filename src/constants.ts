@@ -11,8 +11,9 @@ const HTTP_CODES = {
   internalServerError: 500,
 };
 const CONTENT_TYPE = {
-  text: `text/plain; charset=UTF-8`,
-  html: `text/html; charset=utf-8`
+  plain: `text/plain; charset=UTF-8`,
+  html: `text/html; charset=utf-8`,
+  css: `text/css; charset=utf-8`,
 };
 
 export = {
