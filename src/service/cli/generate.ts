@@ -6,6 +6,7 @@ const chalk = require(`chalk`);
 const FILE_TITLES_PATH = `./data/titles.txt`;
 const FILE_SENTENCES_PATH = `./data/sentences.txt`;
 const FILE_CATEGORIES_PATH = `./data/categories.txt`;
+const {ExitCode} = require(`../../constants`);
 
 const DEFAULT_COUNT = 1;
 const FILE_NAME = `mocks.json`;
@@ -58,6 +59,10 @@ const cliAction: CliAction = {
     const sentences = await readMockFile(FILE_SENTENCES_PATH);
     const titles = await readMockFile(FILE_TITLES_PATH);
     const [count] = args;
+    if (count > 1000) {
+      console.error(chalk.red(`Не больше 1000 публикаций, введенное значение: ${count}`));
+      process.exit(ExitCode.success);
+    }
     const countOffers = Number.parseInt(count, 10) || DEFAULT_COUNT;
     const content = generateOffers(countOffers, categories, sentences, titles);
     try {
