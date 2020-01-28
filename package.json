@@ -25,6 +25,7 @@
     "eslint": "6.8.0",
     "eslint-config-htmlacademy": "0.5.2",
     "ts-node": "8.6.2",
-    "typescript": "3.7.5"
+    "typescript": "3.7.5",
+    "package-json-type": "^1.0.3"
   }
 }

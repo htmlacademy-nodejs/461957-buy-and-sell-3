@@ -6,7 +6,8 @@
     "outDir": "build/src",
     "rootDir": ".",
     "resolveJsonModule": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "alwaysStrict": true
   },
   "exclude": [
     "node_modules"
