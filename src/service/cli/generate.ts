@@ -55,9 +55,11 @@ async function readMockFile(filePath: string): Promise<string[]> {
 const cliAction: CliAction = {
   name: `--generate`,
   async run(args?) {
-    const categories = await readMockFile(FILE_CATEGORIES_PATH);
-    const sentences = await readMockFile(FILE_SENTENCES_PATH);
-    const titles = await readMockFile(FILE_TITLES_PATH);
+    const [categories, sentences, titles] = await Promise.all([
+      readMockFile(FILE_CATEGORIES_PATH),
+      readMockFile(FILE_SENTENCES_PATH),
+      readMockFile(FILE_TITLES_PATH),
+    ]);
     const [count] = args;
     if (count > 1000) {
       console.error(chalk.red(`Не больше 1000 публикаций, введенное значение: ${count}`));
