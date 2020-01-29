@@ -56,13 +56,15 @@ function onClientConnect(req, res) {
 
 const cliAction: CliAction = {
   name: `--server`,
-  run() {
+  run(args?) {
+    const [customPort] = args;
+    const port = parseInt(customPort, 10) || DEFAULT_PORT;
     const httpServer = http.createServer(onClientConnect);
-    httpServer.listen(DEFAULT_PORT, (e) => {
+    httpServer.listen(port, (e) => {
       if (e) {
         return console.error(chalk.red(`Error on create http-server.`, e));
       }
-      return console.info(chalk.green(`Listen on port ${DEFAULT_PORT}`))
+      return console.info(chalk.green(`Listen on port ${port}`))
     });
   }
 };
