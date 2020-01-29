@@ -1,56 +1,45 @@
 import {CliAction} from "../../types/cli-action";
+import { Offer } from '../../types/offer';
 const chalk = require(`chalk`);
 const http = require(`http`);
 const fs = require(`fs`).promises;
-const {DEFAULT_PORT, HTTP_CODES, CONTENT_TYPE} = require(`../../constants`);
+const {DEFAULT_PORT, HttpCodes, ContentType} = require(`../../constants`);
 
-function getResponseMarkup(userAgent: string) {
-  return `
+const notFoundMessageText = `404: Not Found`;
+const MOCK_FILE_PATH = `./mocks.json`;
+
+function sendResponse(res, statusCode: number, content: string): void {
+  const template = `
   <!Doctype html>
-  <html lang="ru">
-  <head>
-    <title>From Node with love!</title>
-    <link rel="stylesheet" href="style.css">
-  </head>
-  <body>
-    <h1>Привет!</h1>
-    <p>Ты используешь: ${userAgent}.</p>
-  </body>
-</html>`
+      <html lang="ru">
+      <head>
+        <title>With love from Node</title>
+      </head>
+      <body>${content}</body>
+    </html>`.trim();
+  res.statusCode = statusCode;
+  res.writeHead(statusCode, {
+    'content-type': ContentType.HTML,
+  });
+
+  res.end(template);
 }
 
-const styles = `
-h1 {
-  color: red;
-  font-size: 24px;
-}
-
-p {
-  color: green;
-  font-size: 16px;
-}`;
-
-function onClientConnect(req, res) {
-
+async function onClientConnect(req, res) {
   switch (req.url) {
-    case `/style.css`:
-      res.writeHead(HTTP_CODES.OK, {
-        'content-type': CONTENT_TYPE.css,
-      });
-      res.end(styles);
-      break;
     case '/':
-      const userAgent = req.headers[`user-agent`];
-      res.writeHead(HTTP_CODES.OK, {
-        'content-type': CONTENT_TYPE.html,
-      });
-      res.end(getResponseMarkup(userAgent));
+      try {
+        const rawMocks = await fs.readFile(MOCK_FILE_PATH, `utf8`);
+        const titles = (JSON.parse(rawMocks) as Offer[])
+          .map(offer => `<li>${offer.title}</li>`)
+          .join(``);
+        sendResponse(res, HttpCodes.OK, `<ul>${titles}</ul>`)
+      } catch (e) {
+        sendResponse(res, HttpCodes.NOT_FOUND, notFoundMessageText);
+      }
       break;
     default:
-      res.writeHead(HTTP_CODES.notFound, {
-        'content-type': CONTENT_TYPE.plain,
-      });
-      res.end(`404: Not found`);
+      sendResponse(res, HttpCodes.NOT_FOUND, notFoundMessageText);
   }
 }
 

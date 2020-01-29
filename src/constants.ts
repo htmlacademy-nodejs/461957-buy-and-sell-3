@@ -5,15 +5,17 @@ const ExitCode = {
   success: 0,
 };
 const DEFAULT_PORT = 3000;
-const HTTP_CODES = {
+const HttpCodes = {
   OK: 200,
-  notFound: 404,
-  internalServerError: 500,
+  UNAUTHORIZED: 401,
+  FORBIDDEN: 403,
+  NOT_FOUND: 404,
+  INTERNAL_SERVER_ERROR: 500,
 };
-const CONTENT_TYPE = {
-  plain: `text/plain; charset=UTF-8`,
-  html: `text/html; charset=utf-8`,
-  css: `text/css; charset=utf-8`,
+const ContentType = {
+  PLAIN: `text/plain; charset=UTF-8`,
+  HTML: `text/html; charset=utf-8`,
+  CSS: `text/css; charset=utf-8`,
 };
 
 export = {
@@ -21,7 +23,7 @@ export = {
   USER_ARGV_INDEX,
   ExitCode,
   DEFAULT_PORT,
-  HTTP_CODES,
-  CONTENT_TYPE,
+  ContentType,
+  HttpCodes,
 };
 
