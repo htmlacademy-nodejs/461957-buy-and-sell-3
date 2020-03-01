@@ -7,6 +7,7 @@ const loginRouter = require(`./routes/login`);
 const myRouter = require(`./routes/my`);
 const searchRouter = require(`./routes/search`);
 const offersRouter = require(`./routes/offers`);
+const error500Router = require(`./routes/500`);
 
 const STATIC_DIR = `src/express/static`;
 const app: Express = express();
@@ -20,5 +21,6 @@ app.use(`/login`, loginRouter);
 app.use(`/my`, myRouter);
 app.use(`/search`, searchRouter);
 app.use(`/offers`, offersRouter);
+app.use(`/500`, error500Router);
 app.use(express.static(STATIC_DIR));
 app.listen(SSR_PORT);
