@@ -1,3 +1,5 @@
+import {Express} from "express";
+
 const express = require(`express`);
 const {SSR_PORT} = require(`../constants`);
 const registerRouter = require(`./routes/register`);
@@ -6,7 +8,10 @@ const myRouter = require(`./routes/my`);
 const searchRouter = require(`./routes/search`);
 const offersRouter = require(`./routes/offers`);
 
-const app = express();
+const app: Express = express();
+
+app.set(`views`, `src/express/templates`);
+app.set(`view engine`, `pug`);
 
 app.get(`/`, (req, res) => res.send(`Hello, Express.js!`));
 app.use(`/register`, registerRouter);
