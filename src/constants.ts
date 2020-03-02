@@ -5,6 +5,7 @@ const ExitCode = {
   success: 0,
 };
 const DEFAULT_PORT = 3000;
+const SSR_PORT = 8080;
 const HttpCodes = {
   OK: 200,
   UNAUTHORIZED: 401,
@@ -25,5 +26,6 @@ export = {
   DEFAULT_PORT,
   ContentType,
   HttpCodes,
+  SSR_PORT,
 };
 
