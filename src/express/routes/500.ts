@@ -5,7 +5,11 @@ const {Router} = require(`express`);
 const error500Router: IRouter = new Router();
 
 error500Router.get(`/`, (req, res) => {
-  res.render(`pages/errors/500`);
+  const pageContent = {
+    errorTitle: `500`,
+    errorSubtitle: `Ошибка cервера`,
+  };
+  res.render(`pages/error`, pageContent);
 });
 
 export = error500Router;

@@ -14,6 +14,7 @@ const app: Express = express();
 
 app.set(`views`, `src/express/templates`);
 app.set(`view engine`, `pug`);
+app.use(express.static(STATIC_DIR));
 
 app.get(`/`, (req, res) => res.send(`Hello, Express.js!`));
 app.use(`/register`, registerRouter);
@@ -22,5 +23,12 @@ app.use(`/my`, myRouter);
 app.use(`/search`, searchRouter);
 app.use(`/offers`, offersRouter);
 app.use(`/500`, error500Router);
-app.use(express.static(STATIC_DIR));
+
+app.use((req, res) => {
+  const pageContent = {
+    errorTitle: `404`,
+    errorSubtitle: `Ошибка cервера`
+  };
+  res.status(404).render(`pages/error`, pageContent);
+});
 app.listen(SSR_PORT);

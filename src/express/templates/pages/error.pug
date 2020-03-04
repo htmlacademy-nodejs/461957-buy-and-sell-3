@@ -1,9 +1,9 @@
-extends ./../../components/layout.pug
+extends ./../components/layout.pug
 
 block main
   section.error
-    h1.error__title 500
-    h2.error__subtitle Ошибка cервера
+    h1.error__title= errorTitle
+    h2.error__subtitle= errorSubtitle
     ul.error__list
       li.error__item
         a(href='sign-up.html') Вход и регистрация
