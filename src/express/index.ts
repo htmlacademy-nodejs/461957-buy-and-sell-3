@@ -9,6 +9,7 @@ const myRouter = require(`./routes/my`);
 const searchRouter = require(`./routes/search`);
 const offersRouter = require(`./routes/offers`);
 const error500Router = require(`./routes/500`);
+const error404Router = require(`./routes/404`);
 const signUpRouter = require(`./routes/sign-up`);
 
 const STATIC_DIR = `src/express/static`;
@@ -26,13 +27,6 @@ app.use(`/search`, searchRouter);
 app.use(`/offers`, offersRouter);
 app.use(`/500`, error500Router);
 app.use(`/sign-up`, signUpRouter);
+app.use(`*`, error404Router);
 
-app.use((req, res) => {
-  const pageContent = {
-    is404Error: true,
-    errorTitle: `404`,
-    errorSubtitle: `Страница не найдена`
-  };
-  res.status(404).render(`pages/error`, pageContent);
-});
 app.listen(SSR_PORT);
