@@ -10,7 +10,7 @@ error500Router.get(`/`, (req, res) => {
     errorTitle: `500`,
     errorSubtitle: `Ошибка cервера`,
   };
-  res.render(`pages/error`, pageContent);
+  res.status(500).render(`pages/error`, pageContent);
 });
 
 export = error500Router;
