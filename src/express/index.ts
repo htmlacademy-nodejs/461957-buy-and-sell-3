@@ -3,6 +3,7 @@ import {Express} from "express";
 const express = require(`express`);
 const {SSR_PORT} = require(`../constants`);
 const registerRouter = require(`./routes/register`);
+const mainPageRouter = require(`./routes/main-page`);
 const loginRouter = require(`./routes/login`);
 const myRouter = require(`./routes/my`);
 const searchRouter = require(`./routes/search`);
@@ -17,8 +18,7 @@ app.set(`views`, `src/express/templates`);
 app.set(`view engine`, `pug`);
 app.use(express.static(STATIC_DIR));
 
-app.get(`/`, (req, res) => res.send(`Hello, Express.js!`));
-
+app.use(`/`, mainPageRouter);
 app.use(`/register`, registerRouter);
 app.use(`/login`, loginRouter);
 app.use(`/my`, myRouter);
