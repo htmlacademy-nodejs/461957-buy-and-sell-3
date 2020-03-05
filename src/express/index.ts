@@ -29,8 +29,9 @@ app.use(`/sign-up`, signUpRouter);
 
 app.use((req, res) => {
   const pageContent = {
+    is404Error: true,
     errorTitle: `404`,
-    errorSubtitle: `Ошибка cервера`
+    errorSubtitle: `Страница не найдена`
   };
   res.status(404).render(`pages/error`, pageContent);
 });
