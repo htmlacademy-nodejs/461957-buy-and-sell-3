@@ -1,0 +1,13 @@
+section.search-results
+  h1.visually-hidden Результаты поиска
+  .search-results__wrapper
+    p.search-results__label
+      | Найдено
+      |
+      span.js-results= resultCount
+      |
+      | публикации
+    ul.search-results__list
+      each ticket in ticketsList
+        li.search-results__item
+          include ./ticket-card
