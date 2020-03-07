@@ -1,3 +1,5 @@
+- var hasDeleteButton = true;
+
 section.comments
   .comments__wrapper
     h1.visually-hidden Страница комментариев
@@ -13,15 +15,4 @@ section.comments
           ul.comments-list
             each comment in ticket.comments
               li.js-card
-                .comment-card
-                  .comment-card__header
-                    a.comment-card__avatar.avatar(href='#')
-                      img(
-                        src= comment.authorImageSrc
-                        srcset= comment.authorImageSrcSet + ' 2x'
-                        alt='Аватар пользователя'
-                        )
-                    p.comment-card__author= comment.author
-                  .comment-card__content
-                    p= comment.content
-                  button.comment-card__delete.js-delete(type='button') Удалить
+                include ./comment
