@@ -1,3 +1,5 @@
+- var hasDeleteButton = true;
+
 section.tickets-list
   h2.visually-hidden Самые новые предложения
   .tickets-list__wrapper
@@ -8,24 +10,4 @@ section.tickets-list
       if ticketsList
         each ticket in ticketsList
           li.tickets-list__item.js-card
-            .ticket-card(
-              class="ticket-card--" + ticket.color
-            )
-              .ticket-card__img
-                img(
-                  src= ticket.imageSrc
-                  srcset= ticket.imageSrc + ' 2x'
-                  alt='Изображение товара'
-                )
-              .ticket-card__info
-                span.ticket-card__label= ticket.label
-                .ticket-card__categories
-                  each category in ticket.categoriesList
-                    a(href='#')= category
-                .ticket-card__header
-                  h3.ticket-card__title
-                    a(href='#')= ticket.title
-                  p.ticket-card__price
-                    span.js-sum= ticket.price
-                    |  ₽
-              button.ticket-card__del.js-delete(type='button') Удалить
+            include ./ticket-card
