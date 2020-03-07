@@ -18,5 +18,7 @@
       p.ticket-card__price
         span.js-sum= ticket.price
         |  ₽
+    .ticket-card__desc
+      p= ticket.description
   if hasDeleteButton
     button.ticket-card__del.js-delete(type='button') Удалить
