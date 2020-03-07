@@ -2,7 +2,7 @@ html(
   lang='ru'
   class=(isServerError ? 'html-server' : '')
   class=(is404Error ? 'html-not-found' : '')
-  )
+)
   head
     meta(charset='UTF-8')
     meta(name='description' content='Доска объявлений — современный веб-сайт, упрощающий продажу или покупку абсолютно любых вещей.')
@@ -11,7 +11,9 @@ html(
     base(href='/')
     title Куплю Продам
     link(rel='stylesheet' href='/css/style.min.css')
-  body.body-server
+  body(
+    class=(isServerError ? 'body-server' : '')
+  )
     block header
 
     main
