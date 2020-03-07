@@ -14,9 +14,25 @@ offersRouter.get(`/category/:id`, (req, res) => {
   return res.send(`/offers/category/${categoryId}`);
 });
 offersRouter.get(`/:id`, (req, res, next) => {
+  const pageContent = {
+    comments: [
+      {
+        author: `Анатолий Хакимов`,
+        authorImageSrc: `img/avatar04.jpg`,
+        authorImageSrcSet: `img/avatar04@2x.jpg`,
+        content: `Хочу прийти посмотреть на авто в среду. Мой телефон 89254455566. Готовы принять?`,
+      },
+      {
+        author: `Георгий Шпиц`,
+        authorImageSrc: `img/avatar02.jpg`,
+        authorImageSrcSet: `img/avatar02@2x.jpg`,
+        content: `Что это за рухлядь? Стыдно такое даже фотографировать, не то, что продавать.`,
+      },
+    ]
+  };
   const offerId = Number.parseInt(req.params.id, 10);
   if (!isNaN(offerId)) {
-    return res.send(`/offers/${offerId}`);
+    res.render(`pages/ticket`, pageContent);
   }
   next();
 });
