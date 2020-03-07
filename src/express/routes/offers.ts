@@ -1,7 +1,10 @@
 const {Router} = require(`express`);
 const offersRouter = new Router();
 
-offersRouter.get(`/add`, (req, res) => res.render(`pages/new-ticket`));
+offersRouter.get(`/add`, (req, res) => {
+  const pageContent = {isLogged: true};
+  res.render(`pages/new-ticket`, pageContent);
+});
 offersRouter.get(`/edit/:id`, (req, res) => {
   const offerId = Number.parseInt(req.params.id, 10);
   return res.send(`/offers/edit/${offerId}`);

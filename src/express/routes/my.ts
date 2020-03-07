@@ -50,7 +50,7 @@ const ticketsList = [
 ];
 
 myRouter.get(`/`, (req, res) => {
-  const pageContent = {ticketsList};
+  const pageContent = {ticketsList, isLogged: true};
   res.render(`pages/tickets-list`, pageContent);
 });
 myRouter.get(`/comments`, (req, res) => res.send(`/my/comments`));
