@@ -1,6 +1,7 @@
 extends ./../components/layout-header-footer
 
 block main
+  include ../components/categories-list
   section.tickets-list
     h2.visually-hidden Предложения из категории #{categoryName}
     .tickets-list__wrapper
