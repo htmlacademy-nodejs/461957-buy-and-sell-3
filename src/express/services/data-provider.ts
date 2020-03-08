@@ -57,7 +57,12 @@ function getTickets(count: number): Ticket[] {
 
 function getCategoriesList(count: number): Category[] {
   const mockLength = categoriesList.length;
-  return new Array(count).fill(undefined).map(() => categoriesList[1]);
+  return new Array(count)
+    .fill(undefined)
+    .map(
+      (item, index) =>
+        categoriesList[getItemIndexFromLimitedCollection(index, mockLength)],
+    );
 }
 
 function getItemIndexFromLimitedCollection(
@@ -65,11 +70,9 @@ function getItemIndexFromLimitedCollection(
   length: number,
 ): number {
   if (index <= length - 1) {
-    console.log("index", index);
     return index;
   } else {
-    console.log("else index", index);
-    return getItemIndexFromLimitedCollection(index, index - length);
+    return getItemIndexFromLimitedCollection(index - length, length);
   }
 }
 
