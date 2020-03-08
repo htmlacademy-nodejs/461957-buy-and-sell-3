@@ -2,3 +2,21 @@ extends ./../components/layout-header-footer
 
 block main
   include ../components/categories-list
+  section.tickets-list
+    h2.visually-hidden САМОЕ СВЕЖЕЕ
+    .tickets-list__wrapper
+      .tickets-list__header
+        p.tickets-list__title САМОЕ СВЕЖЕЕ
+      ul
+        each ticket in newTickets
+          li.tickets-list__item
+            include ../components/ticket-card
+  section.tickets-list
+    h2.visually-hidden Самые обсуждаемые предложения
+    .tickets-list__wrapper
+      .tickets-list__header
+        p.tickets-list__title Самые обсуждаемые
+      ul
+        each ticket in popularTickets
+          li.tickets-list__item
+            include ../components/ticket-card
