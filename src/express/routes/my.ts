@@ -23,7 +23,7 @@ const commentsList = [
 
 myRouter.get(`/`, (req, res) => {
   const pageContent = {ticketsList: getTickets(5), isLogged: true};
-  res.render(`pages/tickets-list`, pageContent);
+  res.render(`pages/my-tickets`, pageContent);
 });
 myRouter.get(`/comments`, (req, res) => {
   const pageContent = {commentsList, isLogged: true};
