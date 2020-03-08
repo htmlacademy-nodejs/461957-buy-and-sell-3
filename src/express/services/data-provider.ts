@@ -1,5 +1,6 @@
 import {Ticket} from "../../types/ticket";
 import {Category} from "../../types/category";
+import {TicketComment} from "../../types/ticket-comment";
 
 const ticketsList: Ticket[] = [
   {
@@ -83,7 +84,6 @@ const ticketsList: Ticket[] = [
     description: `Куплю монстеру зеленую в хорошем зеленом состоянии, буду поливать...`,
   },
 ];
-
 const categoriesList: Category[] = [
   {
     image: `/img/cat.jpg`,
@@ -122,27 +122,37 @@ const categoriesList: Category[] = [
     count: `92`,
   },
 ];
+const comments: TicketComment[] = [
+  {
+    author: `Александр Бурый`,
+    authorImageSrc: `img/avatar03.jpg`,
+    authorImageSrcSet: `img/avatar03@2x.jpg`,
+    content: `А что с прогоном автомобиля? Также вижу на фото зимнюю резину. А летняя идет ли впридачу?`,
+  },
+  {
+    author: `Анатолий Хакимов`,
+    authorImageSrc: `img/avatar04.jpg`,
+    authorImageSrcSet: `img/avatar04@2x.jpg`,
+    content: `Хочу прийти посмотреть на авто в среду. Мой телефон 89254455566. Готовы принять?`,
+  },
+  {
+    author: `Георгий Шпиц`,
+    authorImageSrc: `img/avatar02.jpg`,
+    authorImageSrcSet: `img/avatar02@2x.jpg`,
+    content: `Что это за рухлядь? Стыдно такое даже фотографировать, не то, что продавать.`,
+  },
+];
 
 function getTickets(count: number): Ticket[] {
-  return new Array(count)
-    .fill(undefined)
-    .map(
-      (item, index) =>
-        ticketsList[
-          getItemIndexFromLimitedCollection(index, ticketsList.length)
-        ],
-    );
+  return generateCollectionOfLength<Ticket>(ticketsList, count);
 }
 
 function getCategoriesList(count: number): Category[] {
-  return new Array(count)
-    .fill(undefined)
-    .map(
-      (item, index) =>
-        categoriesList[
-          getItemIndexFromLimitedCollection(index, categoriesList.length)
-        ],
-    );
+  return generateCollectionOfLength<Category>(categoriesList, count);
+}
+
+function getComments(count: number): TicketComment[] {
+  return generateCollectionOfLength<TicketComment>(comments, count);
 }
 
 function getItemIndexFromLimitedCollection(
@@ -156,4 +166,15 @@ function getItemIndexFromLimitedCollection(
   }
 }
 
-export = {getTickets, getCategoriesList};
+function generateCollectionOfLength<T>(mocks: T[], count: number): T[] {
+  return new Array(count)
+    .fill(undefined)
+    .map(
+      (item, index) =>
+        mocks[
+          getItemIndexFromLimitedCollection(index, mocks.length)
+          ],
+    );
+}
+
+export = {getTickets, getCategoriesList, getComments};
