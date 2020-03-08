@@ -1,5 +1,15 @@
 extends ./../components/layout-header-footer
 
 block main
-  include ../components/tickets-list
-
+  - var hasDeleteButton = true;
+  section.tickets-list
+    h2.visually-hidden Самые новые предложения
+    .tickets-list__wrapper
+      .tickets-list__header
+        a.tickets-list__btn.btn.btn--big(href='/offers/add')
+          span Новая публикация
+      ul
+        if ticketsList
+          each ticket in ticketsList
+            li.tickets-list__item.js-card
+              include ../components/ticket-card
