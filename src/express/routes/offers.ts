@@ -1,6 +1,89 @@
 const {Router} = require(`express`);
 const offersRouter = new Router();
 
+const ticketsList = [
+  {
+    title: `Ableton`,
+    imageSrc: `http://localhost:63342/buy-and-sell-3/markup/img/item06.jpg`,
+    imageSrcSet: `img/item06@2x.jpg 2x`,
+    label: `ПРОДАМ`,
+    color: `color06`,
+    categoriesList: [`ЭЛЕКТРОНИКА`],
+    price: `88 000`,
+    description: `Куплю монстеру зеленую в хорошем зеленом состоянии, буду поливать...`,
+  },
+  {
+    title: `Мое старое кресло`,
+    imageSrc: `http://localhost:63342/buy-and-sell-3/markup/img/item10.jpg`,
+    imageSrcSet: `img/item10@2x.jpg 2x`,
+    label: `ПРОДАМ`,
+    color: `color10`,
+    categoriesList: [`Дом`],
+    price: `4000`,
+    description: `Куплю монстеру зеленую в хорошем зеленом состоянии, буду поливать...`,
+  },
+  {
+    title: `Ableton`,
+    imageSrc: `http://localhost:63342/buy-and-sell-3/markup/img/item06.jpg`,
+    imageSrcSet: `img/item06@2x.jpg 2x`,
+    label: `ПРОДАМ`,
+    color: `color06`,
+    categoriesList: [`ЭЛЕКТРОНИКА`],
+    price: `88 000`,
+    description: `Куплю монстеру зеленую в хорошем зеленом состоянии, буду поливать...`,
+  },
+  {
+    title: `Мое старое кресло`,
+    imageSrc: `http://localhost:63342/buy-and-sell-3/markup/img/item10.jpg`,
+    imageSrcSet: `img/item10@2x.jpg 2x`,
+    label: `ПРОДАМ`,
+    color: `color10`,
+    categoriesList: [`Дом`],
+    price: `4000`,
+    description: `Куплю монстеру зеленую в хорошем зеленом состоянии, буду поливать...`,
+  },
+  {
+    title: `Ableton`,
+    imageSrc: `http://localhost:63342/buy-and-sell-3/markup/img/item06.jpg`,
+    imageSrcSet: `img/item06@2x.jpg 2x`,
+    label: `ПРОДАМ`,
+    color: `color06`,
+    categoriesList: [`ЭЛЕКТРОНИКА`],
+    price: `88 000`,
+    description: `Куплю монстеру зеленую в хорошем зеленом состоянии, буду поливать...`,
+  },
+  {
+    title: `Мое старое кресло`,
+    imageSrc: `http://localhost:63342/buy-and-sell-3/markup/img/item10.jpg`,
+    imageSrcSet: `img/item10@2x.jpg 2x`,
+    label: `ПРОДАМ`,
+    color: `color10`,
+    categoriesList: [`Дом`],
+    price: `4000`,
+    description: `Куплю монстеру зеленую в хорошем зеленом состоянии, буду поливать...`,
+  },
+  {
+    title: `Ableton`,
+    imageSrc: `http://localhost:63342/buy-and-sell-3/markup/img/item06.jpg`,
+    imageSrcSet: `img/item06@2x.jpg 2x`,
+    label: `ПРОДАМ`,
+    color: `color06`,
+    categoriesList: [`ЭЛЕКТРОНИКА`],
+    price: `88 000`,
+    description: `Куплю монстеру зеленую в хорошем зеленом состоянии, буду поливать...`,
+  },
+  {
+    title: `Мое старое кресло`,
+    imageSrc: `http://localhost:63342/buy-and-sell-3/markup/img/item10.jpg`,
+    imageSrcSet: `img/item10@2x.jpg 2x`,
+    label: `ПРОДАМ`,
+    color: `color10`,
+    categoriesList: [`Дом`],
+    price: `4000`,
+    description: `Куплю монстеру зеленую в хорошем зеленом состоянии, буду поливать...`,
+  },
+];
+
 offersRouter.get(`/add`, (req, res) => {
   const pageContent = {isLogged: true};
   res.render(`pages/new-ticket`, pageContent);
@@ -11,7 +94,13 @@ offersRouter.get(`/edit/:id`, (req, res) => {
 });
 offersRouter.get(`/category/:id`, (req, res) => {
   const categoryId = Number.parseInt(req.params.id, 10);
-  return res.send(`/offers/category/${categoryId}`);
+  const pageContent = {
+    categoryId,
+    categoryName: `categoryName`,
+    ticketsCount: 62,
+    ticketsList,
+  };
+  res.render(`pages/category`, pageContent);
 });
 offersRouter.get(`/:id`, (req, res, next) => {
   const pageContent = {
@@ -28,7 +117,7 @@ offersRouter.get(`/:id`, (req, res, next) => {
         authorImageSrcSet: `img/avatar02@2x.jpg`,
         content: `Что это за рухлядь? Стыдно такое даже фотографировать, не то, что продавать.`,
       },
-    ]
+    ],
   };
   const offerId = Number.parseInt(req.params.id, 10);
   if (!isNaN(offerId)) {
