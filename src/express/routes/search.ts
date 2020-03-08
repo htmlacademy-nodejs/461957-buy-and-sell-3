@@ -8,7 +8,7 @@ searchRouter.get(`/`, (req, res) => {
     ticketsList: getTickets(2),
     suggestionsList: getTickets(8),
   };
-  res.render(`pages/search`, pageContent);
+  res.render(`pages/search-result`, pageContent);
 });
 
 export = searchRouter;
