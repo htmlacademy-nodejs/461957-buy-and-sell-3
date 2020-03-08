@@ -1,16 +1,88 @@
 import {Ticket} from "../../types/ticket";
 import {Category} from "../../types/category";
 
-const ticket: Ticket = {
-  title: `Мое старое кресло`,
-  imageSrc: `http://localhost:63342/buy-and-sell-3/markup/img/item10.jpg`,
-  imageSrcSet: `img/item10@2x.jpg 2x`,
-  label: `ПРОДАМ`,
-  color: `color10`,
-  categoriesList: [`Дом`],
-  price: `4000`,
-  description: `Куплю монстеру зеленую в хорошем зеленом состоянии, буду поливать...`,
-};
+const ticketsList: Ticket[] = [
+  {
+    title: `Ableton`,
+    imageSrc: `http://localhost:63342/buy-and-sell-3/markup/img/item06.jpg`,
+    imageSrcSet: `img/item06@2x.jpg 2x`,
+    label: `ПРОДАМ`,
+    color: `color06`,
+    categoriesList: [`ЭЛЕКТРОНИКА`],
+    price: `88 000`,
+    description: `Куплю монстеру зеленую в хорошем зеленом состоянии, буду поливать...`,
+  },
+  {
+    title: `Мое старое кресло`,
+    imageSrc: `http://localhost:63342/buy-and-sell-3/markup/img/item10.jpg`,
+    imageSrcSet: `img/item10@2x.jpg 2x`,
+    label: `ПРОДАМ`,
+    color: `color10`,
+    categoriesList: [`Дом`],
+    price: `4000`,
+    description: `Куплю монстеру зеленую в хорошем зеленом состоянии, буду поливать...`,
+  },
+  {
+    title: `Ableton`,
+    imageSrc: `http://localhost:63342/buy-and-sell-3/markup/img/item06.jpg`,
+    imageSrcSet: `img/item06@2x.jpg 2x`,
+    label: `ПРОДАМ`,
+    color: `color06`,
+    categoriesList: [`ЭЛЕКТРОНИКА`],
+    price: `88 000`,
+    description: `Куплю монстеру зеленую в хорошем зеленом состоянии, буду поливать...`,
+  },
+  {
+    title: `Мое старое кресло`,
+    imageSrc: `http://localhost:63342/buy-and-sell-3/markup/img/item10.jpg`,
+    imageSrcSet: `img/item10@2x.jpg 2x`,
+    label: `ПРОДАМ`,
+    color: `color10`,
+    categoriesList: [`Дом`],
+    price: `4000`,
+    description: `Куплю монстеру зеленую в хорошем зеленом состоянии, буду поливать...`,
+  },
+  {
+    title: `Ableton`,
+    imageSrc: `http://localhost:63342/buy-and-sell-3/markup/img/item06.jpg`,
+    imageSrcSet: `img/item06@2x.jpg 2x`,
+    label: `ПРОДАМ`,
+    color: `color06`,
+    categoriesList: [`ЭЛЕКТРОНИКА`],
+    price: `88 000`,
+    description: `Куплю монстеру зеленую в хорошем зеленом состоянии, буду поливать...`,
+  },
+  {
+    title: `Мое старое кресло`,
+    imageSrc: `http://localhost:63342/buy-and-sell-3/markup/img/item10.jpg`,
+    imageSrcSet: `img/item10@2x.jpg 2x`,
+    label: `ПРОДАМ`,
+    color: `color10`,
+    categoriesList: [`Дом`],
+    price: `4000`,
+    description: `Куплю монстеру зеленую в хорошем зеленом состоянии, буду поливать...`,
+  },
+  {
+    title: `Ableton`,
+    imageSrc: `http://localhost:63342/buy-and-sell-3/markup/img/item06.jpg`,
+    imageSrcSet: `img/item06@2x.jpg 2x`,
+    label: `ПРОДАМ`,
+    color: `color06`,
+    categoriesList: [`ЭЛЕКТРОНИКА`],
+    price: `88 000`,
+    description: `Куплю монстеру зеленую в хорошем зеленом состоянии, буду поливать...`,
+  },
+  {
+    title: `Мое старое кресло`,
+    imageSrc: `http://localhost:63342/buy-and-sell-3/markup/img/item10.jpg`,
+    imageSrcSet: `img/item10@2x.jpg 2x`,
+    label: `ПРОДАМ`,
+    color: `color10`,
+    categoriesList: [`Дом`],
+    price: `4000`,
+    description: `Куплю монстеру зеленую в хорошем зеленом состоянии, буду поливать...`,
+  },
+];
 
 const categoriesList: Category[] = [
   {
@@ -52,16 +124,24 @@ const categoriesList: Category[] = [
 ];
 
 function getTickets(count: number): Ticket[] {
-  return new Array(count).map(() => ticket);
-}
-
-function getCategoriesList(count: number): Category[] {
-  const mockLength = categoriesList.length;
   return new Array(count)
     .fill(undefined)
     .map(
       (item, index) =>
-        categoriesList[getItemIndexFromLimitedCollection(index, mockLength)],
+        ticketsList[
+          getItemIndexFromLimitedCollection(index, ticketsList.length)
+        ],
+    );
+}
+
+function getCategoriesList(count: number): Category[] {
+  return new Array(count)
+    .fill(undefined)
+    .map(
+      (item, index) =>
+        categoriesList[
+          getItemIndexFromLimitedCollection(index, categoriesList.length)
+        ],
     );
 }
 
