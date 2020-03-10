@@ -1,0 +1,18 @@
+- var hasDeleteButton = true;
+
+section.comments
+  .comments__wrapper
+    h1.visually-hidden Страница комментариев
+    if commentsList
+      each ticket in commentsList
+        .comments__block
+          .comments__header
+            a.announce-card(href='#')
+              h2.announce-card__title= ticket.ticketHeader.title
+              span.announce-card__info
+                span.announce-card__price= "₽ " + ticket.ticketHeader.price
+                span.announce-card__type= ticket.ticketHeader.type
+          ul.comments-list
+            each comment in ticket.comments
+              li.js-card
+                include ./comment

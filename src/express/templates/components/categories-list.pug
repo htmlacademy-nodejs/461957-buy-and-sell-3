@@ -1,0 +1,17 @@
+section.categories-list
+  h1.visually-hidden Сервис объявлений "Куплю - продам"
+  ul.categories-list__wrapper
+    if categoriesList
+      each category in categoriesList
+        li.categories-list__item
+          a.category-tile(href='#')
+            span.category-tile__image
+              img(
+                src= category.image
+                srcset= category.image2x + ' 2x'
+                alt='Иконка категории'
+              )
+            span.category-tile__label= category.title
+              |
+              |
+              span.category-tile__qty.js-qty= category.count

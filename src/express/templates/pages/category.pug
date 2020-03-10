@@ -1,0 +1,19 @@
+extends ./../components/layout-header-footer
+
+block main
+  include ../components/categories-list
+  section.tickets-list
+    h2.visually-hidden Предложения из категории #{categoryName}
+    .tickets-list__wrapper
+      .tickets-list__header
+        p.tickets-list__title= '#' + categoryId
+          |
+          | categoryName
+          b.js-qty= ' ' + ticketsCount
+      ul
+        if ticketsList
+          each ticket in ticketsList
+            li.tickets-list__item
+              include ../components/ticket-card
+      .tickets-list__pagination
+        include ../components/pagination
