@@ -18,6 +18,7 @@ const ContentType = {
   HTML: `text/html; charset=utf-8`,
   CSS: `text/css; charset=utf-8`,
 };
+const STATIC_DIR = `src/express/static`;
 
 export = {
   DEFAULT_COMMAND,
@@ -27,5 +28,6 @@ export = {
   ContentType,
   HttpCodes,
   SSR_PORT,
+  STATIC_DIR,
 };
 

@@ -1,7 +1,7 @@
 import {Express} from "express";
 
 const express = require(`express`);
-const {SSR_PORT} = require(`../constants`);
+const {SSR_PORT, STATIC_DIR} = require(`../constants`);
 const registerRouter = require(`./routes/register`);
 const mainPageRouter = require(`./routes/main-page`);
 const loginRouter = require(`./routes/login`);
@@ -12,7 +12,6 @@ const error500Router = require(`./routes/500`);
 const error404Router = require(`./routes/404`);
 const signUpRouter = require(`./routes/sign-up`);
 
-const STATIC_DIR = `src/express/static`;
 const app: Express = express();
 
 app.set(`views`, `src/express/templates`);
