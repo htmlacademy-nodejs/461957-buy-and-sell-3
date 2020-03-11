@@ -3,7 +3,7 @@ import { Offer } from '../../types/offer';
 const chalk = require(`chalk`);
 const http = require(`http`);
 const fs = require(`fs`).promises;
-const {DEFAULT_PORT, HttpCodes, ContentType} = require(`../../constants`);
+const {DEFAULT_PORT, HttpCodes, ContentType, MOCK_FILE_PATH} = require(`../../constants`);
 
 const notFoundMessageText = `404: Not Found`;
 const MOCK_FILE_PATH = `./mocks.json`;

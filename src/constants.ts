@@ -19,6 +19,7 @@ const ContentType = {
   CSS: `text/css; charset=utf-8`,
 };
 const STATIC_DIR = `src/express/static`;
+const MOCK_FILE_PATH = `./mocks.json`;
 
 export = {
   DEFAULT_COMMAND,
@@ -29,5 +30,6 @@ export = {
   HttpCodes,
   SSR_PORT,
   STATIC_DIR,
+  MOCK_FILE_PATH,
 };
 
