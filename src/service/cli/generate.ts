@@ -19,12 +19,16 @@ const OfferType = {
   sale: `sale`,
 };
 const SumRestrict = {
-  min: 1000,
-  max: 100000,
+  MIN: 1000,
+  MAX: 100000,
 };
 const PictureRestrict = {
-  min: 1,
-  max: 16,
+  MIN: 1,
+  MAX: 16,
+};
+const DescriptionRestrict = {
+  MIN: 1,
+  MAX: 5,
 };
 const CommentCountRestrict = {
   MIN: 0,
@@ -40,17 +44,17 @@ function generateOffers(count: number, categories: string[], sentences: string[]
     id: nanoid(),
     category: [categories[getRandomInt(0, categories.length - 1)]],
     description: getDescription(sentences),
-    picture: getPictureFileName(getRandomInt(PictureRestrict.min, PictureRestrict.max)),
+    picture: getPictureFileName(getRandomInt(PictureRestrict.MIN, PictureRestrict.MAX)),
     title: titles[getRandomInt(0, titles.length - 1)],
     type: Object.keys(OfferType)[Math.floor(Math.random() * Object.keys(OfferType).length)],
-    sum: getRandomInt(SumRestrict.min, SumRestrict.max),
+    sum: getRandomInt(SumRestrict.MIN, SumRestrict.MAX),
     comments: getOffersComments(comments),
   }));
 }
 
 function getDescription(sentences: string[]): string {
   return shuffle(sentences)
-    .slice(1, 5)
+    .slice(DescriptionRestrict.MIN, DescriptionRestrict.MAX)
     .join(` `);
 }
 
