@@ -12,3 +12,5 @@ extends: 'htmlacademy/node'
 parser: '@typescript-eslint/parser'
 plugins:
   - '@typescript-eslint'
+rules:
+  arrow-parens: off
