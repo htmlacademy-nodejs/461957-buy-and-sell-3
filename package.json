@@ -34,7 +34,7 @@
     "package-json-type": "^1.0.3",
     "prettier": "1.19.1",
     "ts-node": "8.6.2",
-    "typescript": "3.7.5"
+    "typescript": "3.8.3"
   },
   "dependencies": {
     "chalk": "3.0.0",
