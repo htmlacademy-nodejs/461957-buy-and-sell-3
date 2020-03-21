@@ -1,5 +1,6 @@
 import {CliAction} from "../../types/cli-action";
 import {Offer} from "../../types/offer";
+import {OfferComment} from "../../types/offer-comment";
 
 const fs = require(`fs`).promises;
 const nanoid = require(`nanoid`);
@@ -24,21 +25,57 @@ const PictureRestrict = {
   min: 1,
   max: 16,
 };
+const CommentCountRestrict = {
+  MIN: 0,
+  MAX: 7,
+};
+const CommentMessageRescrict = {
+  MIN: 1,
+  MAX: 8,
+};
+const commentExamples: string[] = [
+  `А сколько игр в комплекте?`,
+  `Совсем немного...`,
+  `С чем связана продажа? Почему так дешёво?`,
+  `Продаю в связи с переездом. Отрываю от сердца.`,
+  `Неплохо, но дорого`,
+  `Оплата наличными или перевод на карту?`,
+  `Вы что?! В магазине дешевле.`,
+  `Почему в таком ужасном состоянии?`,
+  `А где блок питания?`,
+];
 
 function generateOffers(count: number, categories: string[], sentences: string[], titles: string[]): Offer[] {
-  return Array(count).fill({}).map(() => ({
+  return new Array(count).fill({}).map(() => ({
     id: nanoid(),
     category: [categories[getRandomInt(0, categories.length - 1)]],
-    description: shuffle(sentences).slice(1, 5).join(` `),
+    description: shuffle(sentences)
+      .slice(1, 5)
+      .join(` `),
     picture: getPictureFileName(getRandomInt(PictureRestrict.min, PictureRestrict.max)),
     title: titles[getRandomInt(0, titles.length - 1)],
     type: Object.keys(OfferType)[Math.floor(Math.random() * Object.keys(OfferType).length)],
     sum: getRandomInt(SumRestrict.min, SumRestrict.max),
+    comments: getOffersComments(),
   }));
 }
 
 function getPictureFileName(amount: number): string {
   return amount > 10 ? `item${amount}.jpg` : `item0${amount}.jpg`;
+}
+
+function getComment(): OfferComment {
+  return {
+    id: nanoid(),
+    text: shuffle(commentExamples)
+      .slice(CommentMessageRescrict.MIN, getRandomInt(CommentMessageRescrict.MIN, CommentMessageRescrict.MAX))
+      .join(` `),
+  };
+}
+function getOffersComments(): OfferComment[] {
+  return Array(getRandomInt(CommentCountRestrict.MIN, CommentCountRestrict.MAX))
+    .fill(undefined)
+    .map(() => getComment());
 }
 
 async function readMockFile(filePath: string): Promise<string[]> {
@@ -48,7 +85,7 @@ async function readMockFile(filePath: string): Promise<string[]> {
       .replace(/(\r\n)/gm, `\n`)
       .replace(/(\r)/gm, `\n`)
       .split(`\n`)
-      .filter((value) => !!value.length);
+      .filter(value => !!value.length);
   } catch (e) {
     console.error(chalk.red(`Filed to read ${filePath}`));
     return [];
@@ -77,7 +114,7 @@ const cliAction: CliAction = {
       console.error(chalk.red(`Fail to write file ${FILE_NAME}`));
       console.error(chalk.red(e));
     }
-  }
+  },
 };
 
 export = cliAction;

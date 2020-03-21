@@ -1,3 +1,5 @@
+import {OfferComment} from "./offer-comment";
+
 export interface Offer {
   id: string;
   category: string[],
@@ -6,4 +8,5 @@ export interface Offer {
   title: string,
   type: string,
   sum: number,
+  comments: OfferComment[];
 }
