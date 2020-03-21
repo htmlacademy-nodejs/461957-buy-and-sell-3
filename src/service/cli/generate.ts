@@ -54,7 +54,7 @@ function generateOffers(count: number, categories: string[], sentences: string[]
 
 function getDescription(sentences: string[]): string {
   return shuffle(sentences)
-    .slice(DescriptionRestrict.MIN, DescriptionRestrict.MAX)
+    .splice(0, getRandomInt(DescriptionRestrict.MIN, DescriptionRestrict.MAX))
     .join(` `);
 }
 
@@ -66,7 +66,7 @@ function getComment(comments: string[]): OfferComment {
   return {
     id: nanoid(),
     text: shuffle(comments)
-      .slice(CommentMessageRescrict.MIN, getRandomInt(CommentMessageRescrict.MIN, CommentMessageRescrict.MAX))
+      .splice(0, getRandomInt(CommentMessageRescrict.MIN, CommentMessageRescrict.MAX))
       .join(` `),
   };
 }
