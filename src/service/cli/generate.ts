@@ -1,6 +1,8 @@
 import {CliAction} from "../../types/cli-action";
 import {Offer} from "../../types/offer";
+
 const fs = require(`fs`).promises;
+const nanoid = require(`nanoid`);
 const {getRandomInt, shuffle} = require(`../../utils`);
 const chalk = require(`chalk`);
 const FILE_TITLES_PATH = `./data/titles.txt`;
@@ -25,6 +27,7 @@ const PictureRestrict = {
 
 function generateOffers(count: number, categories: string[], sentences: string[], titles: string[]): Offer[] {
   return Array(count).fill({}).map(() => ({
+    id: nanoid(),
     category: [categories[getRandomInt(0, categories.length - 1)]],
     description: shuffle(sentences).slice(1, 5).join(` `),
     picture: getPictureFileName(getRandomInt(PictureRestrict.min, PictureRestrict.max)),

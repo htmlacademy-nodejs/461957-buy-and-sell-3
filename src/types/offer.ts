@@ -1,4 +1,5 @@
 export interface Offer {
+  id: string;
   category: string[],
   description: string,
   picture: string,
