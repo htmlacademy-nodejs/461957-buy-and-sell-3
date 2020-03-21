@@ -49,15 +49,19 @@ function generateOffers(count: number, categories: string[], sentences: string[]
   return new Array(count).fill({}).map(() => ({
     id: nanoid(),
     category: [categories[getRandomInt(0, categories.length - 1)]],
-    description: shuffle(sentences)
-      .slice(1, 5)
-      .join(` `),
+    description: getDescription(sentences),
     picture: getPictureFileName(getRandomInt(PictureRestrict.min, PictureRestrict.max)),
     title: titles[getRandomInt(0, titles.length - 1)],
     type: Object.keys(OfferType)[Math.floor(Math.random() * Object.keys(OfferType).length)],
     sum: getRandomInt(SumRestrict.min, SumRestrict.max),
     comments: getOffersComments(),
   }));
+}
+
+function getDescription(sentences: string[]): string {
+  return shuffle(sentences)
+    .slice(1, 5)
+    .join(` `);
 }
 
 function getPictureFileName(amount: number): string {
