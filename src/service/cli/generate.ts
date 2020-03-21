@@ -9,6 +9,7 @@ const chalk = require(`chalk`);
 const FILE_TITLES_PATH = `./data/titles.txt`;
 const FILE_SENTENCES_PATH = `./data/sentences.txt`;
 const FILE_CATEGORIES_PATH = `./data/categories.txt`;
+const FILE_COMMENTS_PATH = `./data/comments.txt`;
 const {ExitCode} = require(`../../constants`);
 
 const DEFAULT_COUNT = 1;
@@ -33,19 +34,8 @@ const CommentMessageRescrict = {
   MIN: 1,
   MAX: 8,
 };
-const commentExamples: string[] = [
-  `А сколько игр в комплекте?`,
-  `Совсем немного...`,
-  `С чем связана продажа? Почему так дешёво?`,
-  `Продаю в связи с переездом. Отрываю от сердца.`,
-  `Неплохо, но дорого`,
-  `Оплата наличными или перевод на карту?`,
-  `Вы что?! В магазине дешевле.`,
-  `Почему в таком ужасном состоянии?`,
-  `А где блок питания?`,
-];
 
-function generateOffers(count: number, categories: string[], sentences: string[], titles: string[]): Offer[] {
+function generateOffers(count: number, categories: string[], sentences: string[], titles: string[], comments: string[]): Offer[] {
   return new Array(count).fill({}).map(() => ({
     id: nanoid(),
     category: [categories[getRandomInt(0, categories.length - 1)]],
@@ -54,7 +44,7 @@ function generateOffers(count: number, categories: string[], sentences: string[]
     title: titles[getRandomInt(0, titles.length - 1)],
     type: Object.keys(OfferType)[Math.floor(Math.random() * Object.keys(OfferType).length)],
     sum: getRandomInt(SumRestrict.min, SumRestrict.max),
-    comments: getOffersComments(),
+    comments: getOffersComments(comments),
   }));
 }
 
@@ -68,18 +58,19 @@ function getPictureFileName(amount: number): string {
   return amount > 10 ? `item${amount}.jpg` : `item0${amount}.jpg`;
 }
 
-function getComment(): OfferComment {
+function getComment(comments: string[]): OfferComment {
   return {
     id: nanoid(),
-    text: shuffle(commentExamples)
+    text: shuffle(comments)
       .slice(CommentMessageRescrict.MIN, getRandomInt(CommentMessageRescrict.MIN, CommentMessageRescrict.MAX))
       .join(` `),
   };
 }
-function getOffersComments(): OfferComment[] {
+
+function getOffersComments(comments: string[]): OfferComment[] {
   return Array(getRandomInt(CommentCountRestrict.MIN, CommentCountRestrict.MAX))
     .fill(undefined)
-    .map(() => getComment());
+    .map(() => getComment(comments));
 }
 
 async function readMockFile(filePath: string): Promise<string[]> {
@@ -99,10 +90,11 @@ async function readMockFile(filePath: string): Promise<string[]> {
 const cliAction: CliAction = {
   name: `--generate`,
   async run(args?) {
-    const [categories, sentences, titles] = await Promise.all([
+    const [categories, sentences, titles, comments] = await Promise.all([
       readMockFile(FILE_CATEGORIES_PATH),
       readMockFile(FILE_SENTENCES_PATH),
       readMockFile(FILE_TITLES_PATH),
+      readMockFile(FILE_COMMENTS_PATH),
     ]);
     const [count] = args;
     if (count > 1000) {
@@ -110,7 +102,7 @@ const cliAction: CliAction = {
       process.exit(ExitCode.success);
     }
     const countOffers = Number.parseInt(count, 10) || DEFAULT_COUNT;
-    const content = generateOffers(countOffers, categories, sentences, titles);
+    const content = generateOffers(countOffers, categories, sentences, titles, comments);
     try {
       await fs.writeFile(FILE_NAME, JSON.stringify(content, undefined, 2));
       console.log(chalk.green(`${countOffers} offer(s) saved to ${FILE_NAME}`));
