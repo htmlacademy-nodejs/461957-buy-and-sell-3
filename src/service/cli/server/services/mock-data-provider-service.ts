@@ -21,4 +21,13 @@ export default class MockDataProviderService implements DataProvider {
       return false;
     }
   }
+
+  async getCategories(): Promise<string[] | false> {
+    try {
+      const offers = await this.getOffers();
+      return Array.from(new Set(offers.flatMap(offer => offer.category)));
+    } catch (e) {
+      return false
+    }
+  }
 }

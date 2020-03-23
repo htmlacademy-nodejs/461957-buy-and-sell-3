@@ -15,4 +15,8 @@ export default class OffersService {
   public async getOfferById(id: string): Promise<Offer | false> {
     return this._dataProviderService.getOfferById(id);
   }
+
+  public async getCategories(): Promise<string[] | false> {
+    return this._dataProviderService.getCategories();
+  }
 }
