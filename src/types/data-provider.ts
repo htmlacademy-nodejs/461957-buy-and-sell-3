@@ -8,5 +8,5 @@ export interface DataProvider {
   // TODO: return error
   getCategories(): Promise<string[] | false>;
   // TODO: return error
-  addOffer(offer: Offer): Promise<string>;
+  addOffer(offer: Offer): Promise<Offer>;
 }
