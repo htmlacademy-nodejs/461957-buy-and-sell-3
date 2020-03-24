@@ -87,6 +87,7 @@ async function readMockFile(filePath: string): Promise<string[]> {
       .filter(value => !!value.length);
   } catch (e) {
     console.error(chalk.red(`Filed to read ${filePath}`));
+    console.error(e)
     return [];
   }
 }
