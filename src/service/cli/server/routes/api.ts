@@ -1,7 +1,7 @@
 import {IRouter} from "express";
 import categoriesRouter from "./categories";
+import offersRouter from "./offers";
 
-const offersRouter = require(`./offers`);
 const {Router} = require(`express`);
 
 const apiRouter: IRouter = new Router();

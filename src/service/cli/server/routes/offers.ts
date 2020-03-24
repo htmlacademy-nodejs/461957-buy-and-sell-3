@@ -1,16 +1,14 @@
-import * as TExpress from "express";
+import {Router, Request, Response} from "express";
 import OffersService from "../services/offers-service";
 import {HttpCodes} from "../../../../shared/http-codes";
 
-const {Router} = require(`express`);
-
-const offersRouter: TExpress.Router = new Router();
+const offersRouter: Router = Router();
 const offersService: OffersService = new OffersService();
 
-offersRouter.get(`/`, async (req: TExpress.Request, res: TExpress.Response) => {
+offersRouter.get(`/`, async (req: Request, res: Response) => {
   res.json(await offersService.getOffers());
 });
-offersRouter.get(`/:id`, async (req: TExpress.Request, res: TExpress.Response) => {
+offersRouter.get(`/:id`, async (req: Request, res: Response) => {
   const offerId = Number.parseInt(req.params.id, 10);
   if (isNaN(offerId)) {
     res.status(HttpCodes.NOT_FOUND).send();
@@ -24,4 +22,4 @@ offersRouter.get(`/:id`, async (req: TExpress.Request, res: TExpress.Response) =
   }
 });
 
-export = offersRouter;
+export default offersRouter;
