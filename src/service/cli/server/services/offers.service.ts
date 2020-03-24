@@ -1,5 +1,7 @@
 import MockDataProviderService from "./mock-data-provider.service";
-import { Offer } from "../../../../types/offer";
+import {Offer} from "../../../../types/offer";
+import {ValidationError} from "../errors/validation-error";
+import {PropertyRequiredError} from "../errors/property-required-error";
 
 export default class OffersService {
   private _dataProviderService: MockDataProviderService;
@@ -20,14 +22,36 @@ export default class OffersService {
     return this._dataProviderService.getCategories();
   }
 
-  public async addOffer(offer: Offer): Promise<string | false> {
-    if (this.isOfferValid(offer)) {
-      return this._dataProviderService.addOffer(offer)
+  public async addOffer(offer: Offer): Promise<Offer> {
+    if (isOfferValid(offer)) {
+      return this._dataProviderService.addOffer(offer);
     }
-    return false
+    throw getOfferValidationError(offer);
   }
+}
 
-  private isOfferValid(offer: Offer): boolean {
-    return offer.picture && offer.title && offer.type && offer.description && offer.category.length && offer.sum && (offer.sum > 0);
+function isOfferValid(offer: Offer): boolean | ValidationError {
+  return offer.picture && offer.title && offer.type && offer.description && offer.category.length && offer.sum && offer.sum > 0;
+}
+
+function getOfferValidationError(offer: Offer): ValidationError {
+  if (!offer.picture) {
+    throw new PropertyRequiredError(`picture`);
   }
+  if (!offer.title) {
+    throw new PropertyRequiredError(`title`);
+  }
+  if (!offer.type) {
+    throw new PropertyRequiredError(`type`);
+  }
+  if (!offer.description) {
+    throw new PropertyRequiredError(`description`);
+  }
+  if (!offer.category.length) {
+    throw new PropertyRequiredError(`category`);
+  }
+  if (!offer.sum) {
+    throw new PropertyRequiredError(`sum`);
+  }
+  return new ValidationError(`Invalid offer`);
 }
