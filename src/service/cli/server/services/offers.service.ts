@@ -1,4 +1,4 @@
-import MockDataProviderService from "./mock-data-provider-service";
+import MockDataProviderService from "./mock-data-provider.service";
 import {Offer} from "../../../../types/offer";
 
 export default class OffersService {

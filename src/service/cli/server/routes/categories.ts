@@ -1,5 +1,5 @@
 import {Router, Request, Response} from "express";
-import OffersService from "../services/offers-service";
+import OffersService from "../services/offers.service";
 
 const categoriesRouter: Router = Router();
 const offersService: OffersService = new OffersService();
