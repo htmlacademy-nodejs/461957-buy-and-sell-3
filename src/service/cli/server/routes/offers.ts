@@ -21,5 +21,8 @@ offersRouter.get(`/:id`, async (req: Request, res: Response) => {
     }
   }
 });
+offersRouter.post(`/`, async (req: Request, res: Response) => {
+
+})
 
 export default offersRouter;
