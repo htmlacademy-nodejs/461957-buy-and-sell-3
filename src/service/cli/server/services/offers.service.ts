@@ -28,30 +28,11 @@ export default class OffersService {
     }
     throw getOfferValidationError(offer);
   }
-}
 
-function isOfferValid(offer: Offer): boolean | ValidationError {
-  return offer.picture && offer.title && offer.type && offer.description && offer.category.length && offer.sum && offer.sum > 0;
-}
-
-function getOfferValidationError(offer: Offer): ValidationError {
-  if (!offer.picture) {
-    throw new PropertyRequiredError(`picture`);
+  public async updateOffer(offer: Offer): Promise<Offer> {
+    if (isOfferValid(offer)) {
+      return this._dataProviderService.updateOffer(offer);
+    }
+    throw getOfferValidationError(offer);
   }
-  if (!offer.title) {
-    throw new PropertyRequiredError(`title`);
-  }
-  if (!offer.type) {
-    throw new PropertyRequiredError(`type`);
-  }
-  if (!offer.description) {
-    throw new PropertyRequiredError(`description`);
-  }
-  if (!offer.category.length) {
-    throw new PropertyRequiredError(`category`);
-  }
-  if (!offer.sum) {
-    throw new PropertyRequiredError(`sum`);
-  }
-  return new ValidationError(`Invalid offer`);
 }

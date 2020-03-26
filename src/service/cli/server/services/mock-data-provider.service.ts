@@ -39,4 +39,8 @@ export default class MockDataProviderService implements DataProvider {
     this.sessionOffers.push(newOffer);
     return Promise.resolve(newOffer);
   }
+
+  async updateOffer(offer: Offer): Promise<Offer> {
+    return Object.assign(await this.getOfferById(offer.id), offer);
+  }
 }

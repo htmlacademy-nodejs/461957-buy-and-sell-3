@@ -1,8 +1,8 @@
-import {Router, Request, Response} from "express";
+import {Request, Response, Router} from "express";
 import OffersService from "../services/offers.service";
 import {HttpCodes} from "../../../../shared/http-codes";
 import {Offer} from "../../../../types/offer";
-import {ValidationError} from "../errors/validation-error";
+import {OfferValidationResponse, ValidationError} from "../../../../types/offer-validation-response";
 
 const offersRouter: Router = Router();
 const offersService: OffersService = new OffersService();
@@ -26,6 +26,10 @@ offersRouter.get(`/:id`, async (req: Request, res: Response) => {
 });
 offersRouter.post(`/`, async (req: Request, res: Response) => {
   const offer = req.body as Offer;
+  const validationResponse = getOfferValidationResponse(offer);
+  if (validationResponse !== null) {
+    res.status(HttpCodes.BAD_REQUEST).send(validationResponse);
+  }
   try {
     res.send(await offersService.addOffer(offer));
   } catch (e) {
@@ -35,5 +39,46 @@ offersRouter.post(`/`, async (req: Request, res: Response) => {
     res.status(HttpCodes.BAD_REQUEST).send();
   }
 });
+// offersRouter.put(`/`, async (req: Request, res: Response) => {
+//   const offer = req.body as Offer;
+//   try {
+//     res.send(await offersService.updateOffer());
+//   } catch (e) {
+//     if (e instanceof ValidationError) {
+//       res.status(HttpCodes.BAD_REQUEST).send(e.message);
+//     }
+//     if (e instanceof NotFoundError) {
+//       res.
+//     }
+//     res.status(HttpCodes.BAD_REQUEST).send();
+//   }
+// });
+
+function getOfferValidationResponse(offer: Offer): OfferValidationResponse | null {
+  const validationResponse: OfferValidationResponse = {};
+  if (!offer.picture) {
+    validationResponse.picture = ValidationError.INVALID;
+  }
+  if (!offer.title) {
+    validationResponse.title = ValidationError.INVALID;
+  }
+  if (!offer.type) {
+    validationResponse.type = ValidationError.INVALID;
+  }
+  if (!offer.description) {
+    validationResponse.description = ValidationError.INVALID;
+  }
+  if (!offer.category.length) {
+    validationResponse.category = ValidationError.INVALID;
+  }
+  if (!offer.sum) {
+    validationResponse.sum = ValidationError.INVALID;
+  }
+
+  if (Object.keys(validationResponse).length) {
+    return validationResponse;
+  }
+  return null;
+}
 
 export default offersRouter;
