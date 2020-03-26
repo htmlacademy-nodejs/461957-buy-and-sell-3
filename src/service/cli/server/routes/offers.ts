@@ -11,21 +11,17 @@ offersRouter.get(`/`, async (req: Request, res: Response) => {
   res.json(await offersService.getOffers());
 });
 offersRouter.get(`/:id`, async (req: Request, res: Response) => {
-  const offerId = Number.parseInt(req.params.id, 10);
-  if (isNaN(offerId)) {
-    res.status(HttpCodes.NOT_FOUND).send();
-  } else {
-    try {
-      const offer = await offersService.getOfferById(offerId.toString());
-      if (offer !== null) {
-        res.json(offer);
-      } else {
-        res.status(HttpCodes.NOT_FOUND).send();
-      }
-    } catch (e) {
-      console.log(e);
-      res.status(HttpCodes.BAD_REQUEST).send();
+  const offerId = req.params.id;
+  try {
+    const offer = await offersService.getOfferById(offerId.toString());
+    if (offer !== null) {
+      res.json(offer);
+    } else {
+      res.status(HttpCodes.NOT_FOUND).send();
     }
+  } catch (e) {
+    console.log(e);
+    res.status(HttpCodes.BAD_REQUEST).send();
   }
 });
 offersRouter.post(`/`, async (req: Request, res: Response) => {
