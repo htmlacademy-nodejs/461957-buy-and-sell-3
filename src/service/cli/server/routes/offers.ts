@@ -15,11 +15,16 @@ offersRouter.get(`/:id`, async (req: Request, res: Response) => {
   if (isNaN(offerId)) {
     res.status(HttpCodes.NOT_FOUND).send();
   } else {
-    const offer = await offersService.getOfferById(offerId.toString());
-    if (offer !== false) {
-      res.json(offer);
-    } else {
-      res.status(HttpCodes.NOT_FOUND).send();
+    try {
+      const offer = await offersService.getOfferById(offerId.toString());
+      if (offer !== null) {
+        res.json(offer);
+      } else {
+        res.status(HttpCodes.NOT_FOUND).send();
+      }
+    } catch (e) {
+      console.log(e);
+      res.status(HttpCodes.BAD_REQUEST).send();
     }
   }
 });

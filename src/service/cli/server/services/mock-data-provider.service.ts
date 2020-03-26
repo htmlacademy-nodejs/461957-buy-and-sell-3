@@ -16,12 +16,12 @@ export default class MockDataProviderService implements DataProvider {
     }
   }
 
-  async getOfferById(id: string): Promise<Offer | false> {
+  async getOfferById(id: string): Promise<Offer | null> {
     try {
       const rawOffers = await fs.readFile(config.MOCK_FILE_PATH, `utf8`);
-      return (JSON.parse(rawOffers) as Offer[])[0];
+      return (JSON.parse(rawOffers) as Offer[]).find((offer) => offer.id === id) ?? null;
     } catch (e) {
-      return false;
+      throw e;
     }
   }
 
