@@ -29,9 +29,24 @@ offersRouter.post(`/`, async (req: Request, res: Response) => {
   const validationResponse = getOfferValidationResponse(offer, ["id"]);
   if (validationResponse !== null) {
     res.status(HttpCodes.BAD_REQUEST).send(validationResponse);
+    return;
   }
   try {
     res.send(await offersService.addOffer(offer));
+  } catch (e) {
+    console.error(e);
+    res.status(HttpCodes.BAD_REQUEST).send();
+  }
+});
+offersRouter.put(`/`, async (req: Request, res: Response) => {
+  const offer = req.body as Offer;
+  const validationResponse = getOfferValidationResponse(offer);
+  if (validationResponse !== null) {
+    res.status(HttpCodes.BAD_REQUEST).send(validationResponse);
+    return;
+  }
+  try {
+    res.send(await offersService.updateOffer(offer));
   } catch (e) {
     console.error(e);
     res.status(HttpCodes.BAD_REQUEST).send();

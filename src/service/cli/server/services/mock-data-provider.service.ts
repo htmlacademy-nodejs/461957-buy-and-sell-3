@@ -3,6 +3,7 @@ import {Offer} from "../../../../types/offer";
 import {promises as fs} from "fs";
 import {config} from "../config";
 import nanoid from "nanoid";
+import { NotFoundError } from "../errors/not-found-error";
 
 export default class MockDataProviderService implements DataProvider {
   private sessionOffers: Offer[] = [];
@@ -39,5 +40,13 @@ export default class MockDataProviderService implements DataProvider {
     const newOffer = {...offer, id: nanoid()};
     this.sessionOffers.push(newOffer);
     return Promise.resolve(newOffer);
+  }
+
+  async updateOffer(offer: Offer): Promise<Offer> {
+    const currentOffer = await this.getOfferById(offer.id)
+    if (currentOffer === null) {
+      throw new NotFoundError(`id [${offer.id}] did not found`)
+    }
+    return Object.assign(await this.getOfferById(offer.id), offer);
   }
 }
