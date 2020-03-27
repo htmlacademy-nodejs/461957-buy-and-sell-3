@@ -5,6 +5,8 @@ export enum ValidationError {
   INVALID = `invalid`,
 }
 
+export type OfferKey = keyof Offer;
+
 export type OfferValidationResponse = {
-  [key in keyof Offer]?: ValidationError;
+  [key in OfferKey]?: ValidationError;
 };
