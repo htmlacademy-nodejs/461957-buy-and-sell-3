@@ -40,22 +40,22 @@ offersRouter.post(`/`, async (req: Request, res: Response) => {
 function getOfferValidationResponse(offer: Offer): OfferValidationResponse | null {
   const validationResponse: OfferValidationResponse = {};
   if (!offer.picture) {
-    validationResponse.picture = ValidationError.INVALID;
+    validationResponse.picture = ValidationError.REQUIRED;
   }
   if (!offer.title) {
-    validationResponse.title = ValidationError.INVALID;
+    validationResponse.title = ValidationError.REQUIRED;
   }
   if (!offer.type) {
-    validationResponse.type = ValidationError.INVALID;
+    validationResponse.type = ValidationError.REQUIRED;
   }
   if (!offer.description) {
-    validationResponse.description = ValidationError.INVALID;
+    validationResponse.description = ValidationError.REQUIRED;
   }
   if (!offer.category.length) {
-    validationResponse.category = ValidationError.INVALID;
+    validationResponse.category = ValidationError.REQUIRED;
   }
   if (!offer.sum) {
-    validationResponse.sum = ValidationError.INVALID;
+    validationResponse.sum = ValidationError.REQUIRED;
   }
 
   if (Object.keys(validationResponse).length) {
