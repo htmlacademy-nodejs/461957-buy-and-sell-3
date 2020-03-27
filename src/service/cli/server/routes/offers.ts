@@ -1,4 +1,4 @@
-import {Router, Request, Response} from "express";
+import { Request, Response, Router } from "express";
 import OffersService from "../services/offers.service";
 import {HttpCodes} from "../../../../shared/http-codes";
 import {Offer} from "../../../../types/offer";
