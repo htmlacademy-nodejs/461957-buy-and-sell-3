@@ -49,7 +49,7 @@ export default class MockDataProviderService implements DataProvider {
   async updateOffer(offer: Offer): Promise<Offer> {
     const currentOffer = await this.getOfferById(offer.id);
     if (currentOffer === null) {
-      throw new NotFoundError(`id [${offer.id}] did not found`);
+      throw new NotFoundError(`Offer by id [${offer.id}] did not found`);
     }
     return Object.assign(await this.getOfferById(offer.id), offer);
   }
@@ -60,7 +60,7 @@ export default class MockDataProviderService implements DataProvider {
         this.deletedOffersId.push(id);
         return Promise.resolve();
       }
-      throw new NotFoundError(`id [${id}] did not found`);
+      throw new NotFoundError(`Offer by id [${id}] did not found`);
     } catch (e) {
       throw e;
     }
@@ -72,5 +72,18 @@ export default class MockDataProviderService implements DataProvider {
     } catch (e) {
       throw e;
     }
+  }
+
+  async deleteCommentById(offerId: string, commentId: string): Promise<void> {
+    const offer = await this.getOfferById(offerId);
+    if (!offer) {
+      throw new NotFoundError(`Offer by id [${offerId}] did not found`);
+    }
+    const commentIndex = offer.comments.findIndex((comment) => comment.id === commentId);
+    if (commentIndex === -1) {
+      throw new NotFoundError(`Comment by id [${commentId}] did not found`);
+    }
+    offer.comments.splice(commentIndex, 1);
+    return;
   }
 }

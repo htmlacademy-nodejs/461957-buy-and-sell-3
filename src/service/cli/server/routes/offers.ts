@@ -76,6 +76,20 @@ offersRouter.get(`/:id/comments`, async (req: Request, res: Response) => {
     res.status(HttpCodes.BAD_REQUEST).send();
   }
 });
+offersRouter.delete(`/:id/comments/:commentId`, async (req: Request, res: Response) => {
+  const offerId = req.params.id;
+  const commentId = req.params.commentId;
+  try {
+    res.send(await offersService.deleteCommentById(offerId, commentId));
+  } catch (e) {
+    if (e instanceof NotFoundError) {
+      console.log(e);
+      return res.status(HttpCodes.NOT_FOUND).send();
+    }
+    console.log(e);
+    res.status(HttpCodes.BAD_REQUEST).send();
+  }
+});
 
 function getOfferValidationResponse(offer: Offer, skipFields: OfferKey[] = []): OfferValidationResponse | null {
   const validationResponse: OfferValidationResponse = {};

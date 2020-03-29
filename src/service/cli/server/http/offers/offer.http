@@ -1,4 +1,4 @@
-
+### CREATE OFFER
 POST localhost:3000/api/offers HTTP/1.1
 Content-Type: application/json
 
@@ -13,7 +13,7 @@ Content-Type: application/json
   "sum": 71932
 }
 
-###
+### UPDATE OFFER
 PUT localhost:3000/api/offers/ HTTP/1.1
 Content-Type: application/json
 
@@ -29,8 +29,10 @@ Content-Type: application/json
   "sum": 71932
 }
 
-###
+### DELETE OFFER
 DELETE localhost:3000/api/offers/cU37M5FxshXpY-0tyg5hO HTTP/1.1
 Content-Type: application/json
 
-###
+### DELETE COMMENT
+DELETE http://localhost:3000/api/offers/sUMRpEQUz4W-GYwuedYPs/comments/jruGg9vOqYedhlV2y2gU3 HTTP/1.1
+Content-Type: application/json
