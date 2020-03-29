@@ -1,9 +1,10 @@
 import MockDataProviderService from "./mock-data-provider.service";
 import {Offer} from "../../../../types/offer";
 import {OfferComment} from "../../../../types/offer-comment";
+import {DataProvider} from "../../../../types/data-provider";
 
 export default class OffersService {
-  private _dataProviderService: MockDataProviderService;
+  private _dataProviderService: DataProvider;
 
   constructor() {
     this._dataProviderService = new MockDataProviderService();
