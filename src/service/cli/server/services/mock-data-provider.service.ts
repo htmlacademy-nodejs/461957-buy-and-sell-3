@@ -93,4 +93,8 @@ export default class MockDataProviderService implements DataProvider {
     offer.comments.push(newComment);
     return offer;
   }
+
+  async searchByOfferTitle(query: string): Promise<Offer[]> {
+    return (await this.getOffers()).filter((offer) => offer.title.includes(query));
+  }
 }

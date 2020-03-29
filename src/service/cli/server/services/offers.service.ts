@@ -45,4 +45,8 @@ export default class OffersService {
   public async createComment(offerId: string, comment: OfferComment): Promise<Offer> {
     return this._dataProviderService.createComment(offerId, comment);
   }
+
+  public async searchByOfferTitle(query: string): Promise<Offer[]> {
+    return this._dataProviderService.searchByOfferTitle(query);
+  }
 }
