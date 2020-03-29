@@ -6,7 +6,7 @@ import nanoid from "nanoid";
 import {NotFoundError} from "../errors/not-found-error";
 import {OfferComment} from "../../../../types/offer-comment";
 
-export default class MockDataProviderService implements DataProvider {
+class MockDataProviderService implements DataProvider {
   private sessionOffers: Offer[] = [];
   private deletedOffersId: string[] = [];
 
@@ -98,3 +98,7 @@ export default class MockDataProviderService implements DataProvider {
     return (await this.getOffers()).filter((offer) => offer.title.includes(query));
   }
 }
+
+const mockDataProviderService = new MockDataProviderService();
+
+export default mockDataProviderService;
