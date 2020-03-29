@@ -1,7 +1,5 @@
 import MockDataProviderService from "./mock-data-provider.service";
 import {Offer} from "../../../../types/offer";
-import {ValidationError} from "../errors/validation-error";
-import {PropertyRequiredError} from "../errors/property-required-error";
 
 export default class OffersService {
   private _dataProviderService: MockDataProviderService;
@@ -23,10 +21,10 @@ export default class OffersService {
   }
 
   public async addOffer(offer: Offer): Promise<Offer> {
-      return this._dataProviderService.addOffer(offer);
+    return this._dataProviderService.addOffer(offer);
   }
 
   public async updateOffer(offer: Offer): Promise<Offer> {
-      return this._dataProviderService.updateOffer(offer);
+    return this._dataProviderService.updateOffer(offer);
   }
 }

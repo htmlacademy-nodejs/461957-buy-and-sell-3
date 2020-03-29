@@ -3,7 +3,7 @@ import {Offer} from "../../../../types/offer";
 import {promises as fs} from "fs";
 import {config} from "../config";
 import nanoid from "nanoid";
-import { NotFoundError } from "../errors/not-found-error";
+import {NotFoundError} from "../errors/not-found-error";
 
 export default class MockDataProviderService implements DataProvider {
   private sessionOffers: Offer[] = [];
@@ -13,15 +13,14 @@ export default class MockDataProviderService implements DataProvider {
       const rawOffers = await fs.readFile(config.MOCK_FILE_PATH, `utf8`);
       return [...(JSON.parse(rawOffers) as Offer[]), ...this.sessionOffers];
     } catch (e) {
-      console.error(e)
+      console.error(e);
       return [];
     }
   }
 
   async getOfferById(id: string): Promise<Offer | null> {
     try {
-      const rawOffers = await fs.readFile(config.MOCK_FILE_PATH, `utf8`);
-      return (JSON.parse(rawOffers) as Offer[]).find((offer) => offer.id === id) ?? null;
+      return (await this.getOffers()).find((offer) => offer.id === id) ?? null;
     } catch (e) {
       throw e;
     }
@@ -43,9 +42,9 @@ export default class MockDataProviderService implements DataProvider {
   }
 
   async updateOffer(offer: Offer): Promise<Offer> {
-    const currentOffer = await this.getOfferById(offer.id)
+    const currentOffer = await this.getOfferById(offer.id);
     if (currentOffer === null) {
-      throw new NotFoundError(`id [${offer.id}] did not found`)
+      throw new NotFoundError(`id [${offer.id}] did not found`);
     }
     return Object.assign(await this.getOfferById(offer.id), offer);
   }
