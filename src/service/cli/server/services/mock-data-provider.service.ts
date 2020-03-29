@@ -12,8 +12,11 @@ export default class MockDataProviderService implements DataProvider {
 
   async getOffers(): Promise<Offer[]> {
     try {
-      const rawOffers = await fs.readFile(config.MOCK_FILE_PATH, `utf8`);
-      return [...(JSON.parse(rawOffers) as Offer[]), ...this.sessionOffers].filter((offer) => !this.deletedOffersId.includes(offer.id));
+      if (this.sessionOffers.length === 0) {
+        const rawOffers = await fs.readFile(config.MOCK_FILE_PATH, `utf8`);
+        this.sessionOffers = JSON.parse(rawOffers) as Offer[];
+      }
+      return this.sessionOffers.filter((offer) => !this.deletedOffersId.includes(offer.id));
     } catch (e) {
       console.error(e);
       return [];
