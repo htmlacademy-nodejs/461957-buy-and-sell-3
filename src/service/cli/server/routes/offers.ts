@@ -67,6 +67,15 @@ offersRouter.delete(`/:id`, async (req: Request, res: Response) => {
     res.status(HttpCodes.BAD_REQUEST).send();
   }
 });
+offersRouter.get(`/:id/comments`, async (req: Request, res: Response) => {
+  const offerId = req.params.id;
+  try {
+    res.send(await offersService.getOfferComments(offerId));
+  } catch (e) {
+    console.log(e);
+    res.status(HttpCodes.BAD_REQUEST).send();
+  }
+});
 
 function getOfferValidationResponse(offer: Offer, skipFields: OfferKey[] = []): OfferValidationResponse | null {
   const validationResponse: OfferValidationResponse = {};

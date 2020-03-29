@@ -1,11 +1,13 @@
 import {Offer} from "./offer";
+import {OfferComment} from "./offer-comment";
 
 export interface DataProvider {
-  // TODO: return error
   getOffers(): Promise<Offer[]>;
   getOfferById(is: string): Promise<Offer | null>;
   // TODO: return error
   getCategories(): Promise<string[] | false>;
-  // TODO: return error
   addOffer(offer: Offer): Promise<Offer>;
+  updateOffer(offer: Offer): Promise<Offer>;
+  deleteOfferById(id: string): Promise<void>;
+  getOfferComments(id: string): Promise<OfferComment[]>;
 }

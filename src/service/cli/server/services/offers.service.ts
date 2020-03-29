@@ -1,5 +1,6 @@
 import MockDataProviderService from "./mock-data-provider.service";
 import {Offer} from "../../../../types/offer";
+import {OfferComment} from "../../../../types/offer-comment";
 
 export default class OffersService {
   private _dataProviderService: MockDataProviderService;
@@ -30,5 +31,9 @@ export default class OffersService {
 
   public async deleteOfferById(id: string): Promise<void> {
     return this._dataProviderService.deleteOfferById(id);
+  }
+
+  public async getOfferComments(id: string): Promise<OfferComment[]> {
+    return this._dataProviderService.getOfferComments(id);
   }
 }

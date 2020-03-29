@@ -4,6 +4,7 @@ import {promises as fs} from "fs";
 import {config} from "../config";
 import nanoid from "nanoid";
 import {NotFoundError} from "../errors/not-found-error";
+import {OfferComment} from "../../../../types/offer-comment";
 
 export default class MockDataProviderService implements DataProvider {
   private sessionOffers: Offer[] = [];
@@ -57,6 +58,14 @@ export default class MockDataProviderService implements DataProvider {
         return Promise.resolve();
       }
       throw new NotFoundError(`id [${id}] did not found`);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  async getOfferComments(id: string): Promise<OfferComment[]> {
+    try {
+      return (await this.getOfferById(id)).comments ?? [];
     } catch (e) {
       throw e;
     }
