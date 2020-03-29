@@ -86,4 +86,11 @@ export default class MockDataProviderService implements DataProvider {
     offer.comments.splice(commentIndex, 1);
     return;
   }
+
+  async createComment(offerId: string, comment: OfferComment): Promise<Offer> {
+    const offer = await this.getOfferById(offerId);
+    const newComment = {...comment, id: nanoid()};
+    offer.comments.push(newComment);
+    return offer;
+  }
 }

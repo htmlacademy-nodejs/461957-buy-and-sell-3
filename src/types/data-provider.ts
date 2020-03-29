@@ -11,4 +11,5 @@ export interface DataProvider {
   deleteOfferById(id: string): Promise<void>;
   getOfferComments(id: string): Promise<OfferComment[]>;
   deleteCommentById(offerId: string, commentId: string): Promise<void>;
+  createComment(offerId: string, comment: OfferComment): Promise<Offer>;
 }

@@ -1,4 +1,4 @@
 export interface OfferComment {
-  id: string;
+  id?: string;
   text: string;
 }

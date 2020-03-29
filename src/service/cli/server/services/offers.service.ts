@@ -41,4 +41,8 @@ export default class OffersService {
   public async deleteCommentById(offerId: string, commentId: string): Promise<void> {
     return this._dataProviderService.deleteCommentById(offerId, commentId);
   }
+
+  public async createComment(offerId: string, comment: OfferComment): Promise<Offer> {
+    return this._dataProviderService.createComment(offerId, comment);
+  }
 }

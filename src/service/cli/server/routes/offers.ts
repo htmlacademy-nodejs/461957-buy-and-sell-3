@@ -4,6 +4,8 @@ import {HttpCodes} from "../../../../shared/http-codes";
 import {Offer} from "../../../../types/offer";
 import {OfferKey, OfferValidationResponse, ValidationError} from "../../../../types/offer-validation-response";
 import {NotFoundError} from "../errors/not-found-error";
+import {OfferComment} from "../../../../types/offer-comment";
+import {CommentValidationResponse} from "../../../../types/comment-validation-response";
 
 const offersRouter: Router = Router();
 const offersService: OffersService = new OffersService();
@@ -90,6 +92,26 @@ offersRouter.delete(`/:id/comments/:commentId`, async (req: Request, res: Respon
     res.status(HttpCodes.BAD_REQUEST).send();
   }
 });
+offersRouter.put(`/:id/comments`, async (req: Request, res: Response) => {
+  const offerId = req.params.id;
+  const comment = req.body as OfferComment;
+  const validationResponse = getCommentValidationResponse(comment);
+  if (validationResponse !== null) {
+    res.status(HttpCodes.BAD_REQUEST).send(validationResponse);
+    return;
+  }
+  try {
+    res.send(await offersService.createComment(offerId, comment));
+  } catch (e) {
+    if (e instanceof NotFoundError) {
+      console.log(e);
+      res.status(HttpCodes.NOT_FOUND).send();
+    } else {
+      console.log(e);
+      res.status(HttpCodes.BAD_REQUEST).send();
+    }
+  }
+});
 
 function getOfferValidationResponse(offer: Offer, skipFields: OfferKey[] = []): OfferValidationResponse | null {
   const validationResponse: OfferValidationResponse = {};
@@ -115,6 +137,17 @@ function getOfferValidationResponse(offer: Offer, skipFields: OfferKey[] = []): 
     validationResponse.sum = ValidationError.REQUIRED;
   }
 
+  if (Object.keys(validationResponse).length) {
+    return validationResponse;
+  }
+  return null;
+}
+
+function getCommentValidationResponse(comment: OfferComment): CommentValidationResponse | null {
+  const validationResponse: CommentValidationResponse = {};
+  if (!comment.text) {
+    validationResponse.text = ValidationError.REQUIRED;
+  }
   if (Object.keys(validationResponse).length) {
     return validationResponse;
   }
