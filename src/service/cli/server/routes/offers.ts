@@ -1,5 +1,5 @@
 import {Request, Response, Router} from "express";
-import OffersService from "../services/offers.service";
+import offersService from "../services/offers.service";
 import {HttpCodes} from "../../../../shared/http-codes";
 import {Offer} from "../../../../types/offer";
 import {OfferKey, OfferValidationResponse, ValidationError} from "../../../../types/offer-validation-response";
@@ -8,7 +8,6 @@ import {OfferComment} from "../../../../types/offer-comment";
 import {CommentValidationResponse} from "../../../../types/comment-validation-response";
 
 const offersRouter: Router = Router();
-const offersService: OffersService = new OffersService();
 
 offersRouter.get(`/`, async (req: Request, res: Response) => {
   res.json(await offersService.getOffers());

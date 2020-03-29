@@ -3,7 +3,7 @@ import {Offer} from "../../../../types/offer";
 import {OfferComment} from "../../../../types/offer-comment";
 import {DataProvider} from "../../../../types/data-provider";
 
-export default class OffersService {
+class OffersService {
   private _dataProviderService: DataProvider;
 
   constructor() {
@@ -50,3 +50,7 @@ export default class OffersService {
     return this._dataProviderService.searchByOfferTitle(query);
   }
 }
+
+const offersService = new OffersService();
+
+export default offersService;
