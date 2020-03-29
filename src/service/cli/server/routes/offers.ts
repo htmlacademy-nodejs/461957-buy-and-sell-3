@@ -1,8 +1,9 @@
-import { Request, Response, Router } from "express";
+import {Request, Response, Router} from "express";
 import OffersService from "../services/offers.service";
-import { HttpCodes } from "../../../../shared/http-codes";
-import { Offer } from "../../../../types/offer";
-import { OfferKey, OfferValidationResponse, ValidationError } from "../../../../types/offer-validation-response";
+import {HttpCodes} from "../../../../shared/http-codes";
+import {Offer} from "../../../../types/offer";
+import {OfferKey, OfferValidationResponse, ValidationError} from "../../../../types/offer-validation-response";
+import {NotFoundError} from "../errors/not-found-error";
 
 const offersRouter: Router = Router();
 const offersService: OffersService = new OffersService();
@@ -26,7 +27,7 @@ offersRouter.get(`/:id`, async (req: Request, res: Response) => {
 });
 offersRouter.post(`/`, async (req: Request, res: Response) => {
   const offer = req.body as Offer;
-  const validationResponse = getOfferValidationResponse(offer, ["id"]);
+  const validationResponse = getOfferValidationResponse(offer, [`id`]);
   if (validationResponse !== null) {
     res.status(HttpCodes.BAD_REQUEST).send(validationResponse);
     return;
@@ -48,6 +49,20 @@ offersRouter.put(`/`, async (req: Request, res: Response) => {
   try {
     res.send(await offersService.updateOffer(offer));
   } catch (e) {
+    console.error(e);
+    res.status(HttpCodes.BAD_REQUEST).send();
+  }
+});
+offersRouter.delete(`/:id`, async (req: Request, res: Response) => {
+  const offerId = req.params.id;
+  try {
+    await offersService.deleteOfferById(offerId);
+    res.send();
+  } catch (e) {
+    if (e instanceof NotFoundError) {
+      console.log(e);
+      return res.status(HttpCodes.NOT_FOUND).send();
+    }
     console.error(e);
     res.status(HttpCodes.BAD_REQUEST).send();
   }

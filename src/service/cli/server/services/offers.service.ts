@@ -27,4 +27,8 @@ export default class OffersService {
   public async updateOffer(offer: Offer): Promise<Offer> {
     return this._dataProviderService.updateOffer(offer);
   }
+
+  public async deleteOfferById(id: string): Promise<void> {
+    return this._dataProviderService.deleteOfferById(id);
+  }
 }
