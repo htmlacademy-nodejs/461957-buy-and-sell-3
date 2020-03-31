@@ -7,7 +7,10 @@
     "rootDir": ".",
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "alwaysStrict": true
+    "alwaysStrict": true,
+    "lib": [
+      "ES2019.Array"
+    ]
   },
   "exclude": [
     "node_modules"

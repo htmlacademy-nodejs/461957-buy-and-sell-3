@@ -12,3 +12,7 @@ extends: 'htmlacademy/node'
 parser: '@typescript-eslint/parser'
 plugins:
   - '@typescript-eslint'
+rules:
+  arrow-parens: off
+  no-unused-vars: off
+  '@typescript-eslint/no-unused-vars': error

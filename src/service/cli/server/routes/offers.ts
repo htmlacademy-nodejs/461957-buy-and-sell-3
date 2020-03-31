@@ -1,21 +1,156 @@
+import {Request, Response, Router} from "express";
+import offersService from "../services/offers.service";
+import {HttpCodes} from "../../../../shared/http-codes";
 import {Offer} from "../../../../types/offer";
+import {OfferKey, OfferValidationResponse, ValidationError} from "../../../../types/offer-validation-response";
+import {NotFoundError} from "../errors/not-found-error";
+import {OfferComment} from "../../../../types/offer-comment";
+import {CommentValidationResponse} from "../../../../types/comment-validation-response";
 
-const {MOCK_FILE_PATH} = require(`../../../../constants`);
-const fs = require(`fs`).promises;
+const offersRouter: Router = Router();
 
-const {Router} = require(`express`);
-const offersRouter = new Router();
-
-offersRouter.get(`/`, async (req, res) => {
-  let offersContent;
+offersRouter.get(`/`, async (req: Request, res: Response) => {
+  res.json(await offersService.getOffers());
+});
+offersRouter.get(`/:id`, async (req: Request, res: Response) => {
+  const offerId = req.params.id;
   try {
-    const rawOffers = await fs.readFile(MOCK_FILE_PATH, `utf8`);
-    offersContent = JSON.parse(rawOffers) as Offer[];
+    const offer = await offersService.getOfferById(offerId.toString());
+    if (offer !== null) {
+      res.json(offer);
+    } else {
+      res.status(HttpCodes.NOT_FOUND).send();
+    }
   } catch (e) {
-    offersContent = [];
+    console.error(e);
+    res.status(HttpCodes.BAD_REQUEST).send();
   }
-
-  res.json(offersContent);
+});
+offersRouter.post(`/`, async (req: Request, res: Response) => {
+  const offer = req.body as Offer;
+  const validationResponse = getOfferValidationResponse(offer, [`id`]);
+  if (validationResponse !== null) {
+    res.status(HttpCodes.BAD_REQUEST).send(validationResponse);
+    return;
+  }
+  try {
+    res.send(await offersService.addOffer(offer));
+  } catch (e) {
+    console.error(e);
+    res.status(HttpCodes.BAD_REQUEST).send();
+  }
+});
+offersRouter.put(`/`, async (req: Request, res: Response) => {
+  const offer = req.body as Offer;
+  const validationResponse = getOfferValidationResponse(offer);
+  if (validationResponse !== null) {
+    res.status(HttpCodes.BAD_REQUEST).send(validationResponse);
+    return;
+  }
+  try {
+    res.send(await offersService.updateOffer(offer));
+  } catch (e) {
+    console.error(e);
+    res.status(HttpCodes.BAD_REQUEST).send();
+  }
+});
+offersRouter.delete(`/:id`, async (req: Request, res: Response) => {
+  const offerId = req.params.id;
+  try {
+    await offersService.deleteOfferById(offerId);
+    res.send();
+  } catch (e) {
+    if (e instanceof NotFoundError) {
+      console.log(e);
+      return res.status(HttpCodes.NOT_FOUND).send();
+    }
+    console.error(e);
+    res.status(HttpCodes.BAD_REQUEST).send();
+  }
+});
+offersRouter.get(`/:id/comments`, async (req: Request, res: Response) => {
+  const offerId = req.params.id;
+  try {
+    res.send(await offersService.getOfferComments(offerId));
+  } catch (e) {
+    console.log(e);
+    res.status(HttpCodes.BAD_REQUEST).send();
+  }
+});
+offersRouter.delete(`/:id/comments/:commentId`, async (req: Request, res: Response) => {
+  const offerId = req.params.id;
+  const commentId = req.params.commentId;
+  try {
+    res.send(await offersService.deleteCommentById(offerId, commentId));
+  } catch (e) {
+    if (e instanceof NotFoundError) {
+      console.log(e);
+      return res.status(HttpCodes.NOT_FOUND).send();
+    }
+    console.log(e);
+    res.status(HttpCodes.BAD_REQUEST).send();
+  }
+});
+offersRouter.put(`/:id/comments`, async (req: Request, res: Response) => {
+  const offerId = req.params.id;
+  const comment = req.body as OfferComment;
+  const validationResponse = getCommentValidationResponse(comment);
+  if (validationResponse !== null) {
+    res.status(HttpCodes.BAD_REQUEST).send(validationResponse);
+    return;
+  }
+  try {
+    res.send(await offersService.createComment(offerId, comment));
+  } catch (e) {
+    if (e instanceof NotFoundError) {
+      console.log(e);
+      res.status(HttpCodes.NOT_FOUND).send();
+    } else {
+      console.log(e);
+      res.status(HttpCodes.BAD_REQUEST).send();
+    }
+  }
 });
 
-export = offersRouter;
+function getOfferValidationResponse(offer: Offer, skipFields: OfferKey[] = []): OfferValidationResponse | null {
+  const validationResponse: OfferValidationResponse = {};
+  if (!offer.id && !skipFields.includes(`id`)) {
+    validationResponse.id = ValidationError.REQUIRED;
+  }
+  if (!offer.picture) {
+    validationResponse.picture = ValidationError.REQUIRED;
+  }
+  if (!offer.title) {
+    validationResponse.title = ValidationError.REQUIRED;
+  }
+  if (!offer.type) {
+    validationResponse.type = ValidationError.REQUIRED;
+  }
+  if (!offer.description) {
+    validationResponse.description = ValidationError.REQUIRED;
+  }
+  if (!offer.category.length) {
+    validationResponse.category = ValidationError.REQUIRED;
+  }
+  if (!offer.sum) {
+    validationResponse.sum = ValidationError.REQUIRED;
+  }
+
+  if (Object.keys(validationResponse).length) {
+    return validationResponse;
+  }
+  return null;
+}
+
+function getCommentValidationResponse(comment: OfferComment): CommentValidationResponse | null {
+  const validationResponse: CommentValidationResponse = {};
+  if (!comment.text) {
+    validationResponse.text = ValidationError.REQUIRED;
+  }
+  if (Object.keys(validationResponse).length) {
+    return validationResponse;
+  }
+  return null;
+}
+
+export default offersRouter;
