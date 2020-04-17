@@ -1,10 +1,9 @@
 import {Express} from "express";
 import apiRouter from "./routes/api";
-import {DEFAULT_PORT} from "./config";
+import {DEFAULT_PORT} from "../../../shared/variables";
 
 const express = require(`express`);
 const bodyParser = require(`body-parser`);
-
 const chalk = require(`chalk`);
 
 export const app: Express = express();
