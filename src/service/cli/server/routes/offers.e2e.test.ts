@@ -6,6 +6,11 @@ test(`When get offers list status code should be 200`, async () => {
   expect(res.status).toBe(200);
 });
 
+test(`Should return array when request offers`, async () => {
+  const res = await request(app).get(`/api/offers`);
+  expect(Array.isArray(res.body)).toBe(true);
+});
+
 test(`Should return code 200 when request offer with test id '0'`, async () => {
   const res = await request(app).get(`/api/offers/test-id-for-object-00-00-00-00-1d-id`);
   expect(res.status).toBe(200);
