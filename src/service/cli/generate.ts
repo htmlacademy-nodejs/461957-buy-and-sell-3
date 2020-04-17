@@ -39,9 +39,11 @@ const CommentMessageRescrict = {
   MAX: 8,
 };
 
+let isTestCase: boolean = true;
+
 function generateOffers(count: number, categories: string[], sentences: string[], titles: string[], comments: string[]): Offer[] {
   return new Array(count).fill({}).map(() => ({
-    id: nanoid(),
+    id: getId(),
     category: [categories[getRandomInt(0, categories.length - 1)]],
     description: getDescription(sentences),
     picture: getPictureFileName(getRandomInt(PictureRestrict.MIN, PictureRestrict.MAX)),
@@ -52,10 +54,16 @@ function generateOffers(count: number, categories: string[], sentences: string[]
   }));
 }
 
+function getId(): string {
+  if (isTestCase) {
+    isTestCase = false;
+    return `test-id-for-object-00-00-00-00-1d-id`;
+  }
+  return nanoid();
+}
+
 function getDescription(sentences: string[]): string {
-  return shuffle(sentences)
-    .splice(0, getRandomInt(DescriptionRestrict.MIN, DescriptionRestrict.MAX))
-    .join(` `);
+  return shuffle(sentences).splice(0, getRandomInt(DescriptionRestrict.MIN, DescriptionRestrict.MAX)).join(` `);
 }
 
 function getPictureFileName(amount: number): string {
@@ -65,9 +73,7 @@ function getPictureFileName(amount: number): string {
 function getComment(comments: string[]): OfferComment {
   return {
     id: nanoid(),
-    text: shuffle(comments)
-      .splice(0, getRandomInt(CommentMessageRescrict.MIN, CommentMessageRescrict.MAX))
-      .join(` `),
+    text: shuffle(comments).splice(0, getRandomInt(CommentMessageRescrict.MIN, CommentMessageRescrict.MAX)).join(` `),
   };
 }
 
@@ -84,10 +90,10 @@ async function readMockFile(filePath: string): Promise<string[]> {
       .replace(/(\r\n)/gm, `\n`)
       .replace(/(\r)/gm, `\n`)
       .split(`\n`)
-      .filter(value => !!value.length);
+      .filter((value) => !!value.length);
   } catch (e) {
     console.error(chalk.red(`Filed to read ${filePath}`));
-    console.error(e)
+    console.error(e);
     return [];
   }
 }
