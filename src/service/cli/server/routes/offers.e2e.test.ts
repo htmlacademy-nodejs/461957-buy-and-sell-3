@@ -11,9 +11,14 @@ test(`Should return array when request offers`, async () => {
   expect(Array.isArray(res.body)).toBe(true);
 });
 
-test(`Should return code 200 when request offer with test id '0'`, async () => {
+test(`Should return code 200 when request offer with test id 'test-id-for-object-00-00-00-00-1d-id'`, async () => {
   const res = await request(app).get(`/api/offers/test-id-for-object-00-00-00-00-1d-id`);
   expect(res.status).toBe(200);
+});
+
+test(`Should return code 404 when request offer with invalid id 'invalid-id'`, async () => {
+  const res = await request(app).get(`/api/offers/invalid-id`);
+  expect(res.status).toBe(404);
 });
 
 test(`Should return offer with defined fields`, async () => {
