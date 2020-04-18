@@ -89,3 +89,13 @@ test(`Should return code 200 when update offer`, async () => {
     .send({...validNewOffer, id: validOfferId});
   expect(res.status).toBe(200);
 });
+
+test(`Should return code 200 when delete offer`, async () => {
+  const res = await request(app).delete(`/api/offers/${validOfferId}`);
+  expect(res.status).toBe(200);
+});
+
+test(`Should return code 404 when delete nonexistent offer`, async () => {
+  const res = await request(app).delete(`/api/offers/${invalidOfferId}`);
+  expect(res.status).toBe(404);
+});
