@@ -2,6 +2,8 @@ import request from "supertest";
 import {app} from "../index";
 import {NewOffer, OfferType} from "../../../../types/offer";
 
+const validOfferId = `test-id-for-object-00-00-00-00-1d-id`;
+const invalidOfferId = `invalid-id`;
 const validNewOffer: NewOffer = {
   category: [`testCategory`],
   comments: [],
@@ -32,18 +34,18 @@ test(`Should return array when request offers`, async () => {
   expect(Array.isArray(res.body)).toBe(true);
 });
 
-test(`Should return code 200 when request offer with test id 'test-id-for-object-00-00-00-00-1d-id'`, async () => {
-  const res = await request(app).get(`/api/offers/test-id-for-object-00-00-00-00-1d-id`);
+test(`Should return code 200 when request offer with test id ${validOfferId}`, async () => {
+  const res = await request(app).get(`/api/offers/${validOfferId}`);
   expect(res.status).toBe(200);
 });
 
-test(`Should return code 404 when request offer with invalid id 'invalid-id'`, async () => {
-  const res = await request(app).get(`/api/offers/invalid-id`);
+test(`Should return code 404 when request offer with invalid id '${invalidOfferId}'`, async () => {
+  const res = await request(app).get(`/api/offers/${invalidOfferId}`);
   expect(res.status).toBe(404);
 });
 
 test(`Should return offer with defined fields`, async () => {
-  const res = await request(app).get(`/api/offers/test-id-for-object-00-00-00-00-1d-id`);
+  const res = await request(app).get(`/api/offers/${validOfferId}`);
   const responseKeys = Object.keys(res.body) as string[];
   expect(responseKeys).toContain(`id`);
   expect(responseKeys).toContain(`category`);
@@ -84,6 +86,6 @@ test(`Should return validation error when send invalid offer`, async () => {
 test(`Should return code 200 when update offer`, async () => {
   const res = await request(app)
     .put(`/api/offers/`)
-    .send({...validNewOffer, id: `test-id-for-object-00-00-00-00-1d-id`});
+    .send({...validNewOffer, id: validOfferId});
   expect(res.status).toBe(200);
 });
