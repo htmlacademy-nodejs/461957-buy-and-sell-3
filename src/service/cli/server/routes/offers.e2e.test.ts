@@ -65,6 +65,11 @@ test(`Should return offer with id when request to add offer`, async () => {
   expect(res.body.hasOwnProperty(`id`)).toBe(true);
 });
 
+test(`Should return code 400 when send invalid offer`, async () => {
+  const res = await request(app).post(`/api/offers/`).send(invalidNewOffer);
+  expect(res.status).toBe(400);
+});
+
 test(`Should return validation error when send invalid offer`, async () => {
   const res = await request(app).post(`/api/offers/`).send(invalidNewOffer);
   const validationKeys = Object.keys(res.body) as string[];
