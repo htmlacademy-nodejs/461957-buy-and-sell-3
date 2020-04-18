@@ -1,6 +1,6 @@
 import request from "supertest";
 import {app} from "../index";
-import {NewOffer} from "../../../../types/offer";
+import {NewOffer, OfferType} from "../../../../types/offer";
 
 const validNewOffer: NewOffer = {
   category: [`testCategory`],
@@ -9,7 +9,17 @@ const validNewOffer: NewOffer = {
   picture: `picture`,
   sum: 1,
   title: `title`,
-  type: `type`,
+  type: OfferType.SELL,
+};
+
+const invalidNewOffer = {
+  category: [],
+  comments: [],
+  description: ``,
+  picture: ``,
+  sum: 0,
+  title: ``,
+  type: ``,
 };
 
 test(`When get offers list status code should be 200`, async () => {
