@@ -1,9 +1,11 @@
 import request from "supertest";
 import {app} from "../index";
 import {NewOffer, OfferType} from "../../../../types/offer";
+import {OfferComment} from "../../../../types/offer-comment";
 
 const validOfferId = `test-id-for-object-00-00-00-00-1d-id`;
 const invalidOfferId = `invalid-id`;
+const offerWithCommentsId = `test-id-for-offers-with-comments`;
 const validNewOffer: NewOffer = {
   category: [`testCategory`],
   comments: [],
@@ -13,6 +15,20 @@ const validNewOffer: NewOffer = {
   title: `title`,
   type: OfferType.SELL,
 };
+const comments: OfferComment[] = [
+  {
+    text: `Comment1`,
+    id: `comment-1`,
+  },
+  {
+    text: `Comment2`,
+    id: `comment-2`,
+  },
+  {
+    text: `Comment3`,
+    id: `comment-3`,
+  },
+];
 
 const invalidNewOffer = {
   category: [],
@@ -100,4 +116,25 @@ describe(`Offers API end-points`, () => {
     const res = await request(app).delete(`/api/offers/${invalidOfferId}`);
     expect(res.status).toBe(404);
   });
+
+  describe(`Offer comments`, () => {
+    let newOfferId;
+    beforeAll(async () => {
+      newOfferId = await addOfferWithComments();
+    });
+
+    test(`Should return code 200 when request comments`, async () => {
+      console.log(newOfferId);
+      const res = await request(app).get(`/api/offers/${newOfferId}/comments`);
+      expect(res.status).toBe(200);
+    });
+  });
 });
+
+async function addOfferWithComments() {
+  const res = await request(app)
+    .post(`/api/offers/`)
+    .send({...validNewOffer, comments});
+
+  return res.body.id;
+}
