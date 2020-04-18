@@ -1,4 +1,4 @@
-import {Offer} from "./offer";
+import {NewOffer, Offer} from "./offer";
 import {OfferComment} from "./offer-comment";
 
 export interface DataProvider {
@@ -6,7 +6,7 @@ export interface DataProvider {
   getOfferById(is: string): Promise<Offer | null>;
   // TODO: return error
   getCategories(): Promise<string[] | false>;
-  addOffer(offer: Offer): Promise<Offer>;
+  addOffer(offer: NewOffer): Promise<Offer>;
   updateOffer(offer: Offer): Promise<Offer>;
   deleteOfferById(id: string): Promise<void>;
   getOfferComments(id: string): Promise<OfferComment[]>;

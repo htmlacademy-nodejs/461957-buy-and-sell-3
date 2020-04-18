@@ -1,5 +1,5 @@
 import mockDataProviderService from "./mock-data-provider.service";
-import {Offer} from "../../../../types/offer";
+import {NewOffer, Offer} from "../../../../types/offer";
 import {OfferComment} from "../../../../types/offer-comment";
 import {DataProvider} from "../../../../types/data-provider";
 
@@ -22,7 +22,7 @@ class OffersService {
     return this._dataProviderService.getCategories();
   }
 
-  public async addOffer(offer: Offer): Promise<Offer> {
+  public async addOffer(offer: NewOffer): Promise<Offer> {
     return this._dataProviderService.addOffer(offer);
   }
 

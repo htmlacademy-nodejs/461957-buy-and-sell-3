@@ -1,7 +1,7 @@
 import {Request, Response, Router} from "express";
 import offersService from "../services/offers.service";
 import {HttpCodes} from "../../../../shared/http-codes";
-import {Offer} from "../../../../types/offer";
+import {NewOffer, Offer} from "../../../../types/offer";
 import {OfferKey, OfferValidationResponse, ValidationError} from "../../../../types/offer-validation-response";
 import {NotFoundError} from "../errors/not-found-error";
 import {OfferComment} from "../../../../types/offer-comment";
@@ -27,7 +27,7 @@ offersRouter.get(`/:id`, async (req: Request, res: Response) => {
   }
 });
 offersRouter.post(`/`, async (req: Request, res: Response) => {
-  const offer = req.body as Offer;
+  const offer = req.body as NewOffer;
   const validationResponse = getOfferValidationResponse(offer, [`id`]);
   if (validationResponse !== null) {
     res.status(HttpCodes.BAD_REQUEST).send(validationResponse);
@@ -112,7 +112,7 @@ offersRouter.put(`/:id/comments`, async (req: Request, res: Response) => {
   }
 });
 
-function getOfferValidationResponse(offer: Offer, skipFields: OfferKey[] = []): OfferValidationResponse | null {
+function getOfferValidationResponse(offer: Offer | NewOffer, skipFields: OfferKey[] = []): OfferValidationResponse | null {
   const validationResponse: OfferValidationResponse = {};
   if (!offer.id && !skipFields.includes(`id`)) {
     validationResponse.id = ValidationError.REQUIRED;
