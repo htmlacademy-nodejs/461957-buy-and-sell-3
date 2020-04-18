@@ -3,12 +3,14 @@ import {app} from "../index";
 import {NewOffer, OfferType} from "../../../../types/offer";
 
 const invalidOfferId = `invalid-id`;
+const validCommentId = `comment-1`;
+const invalidCommentId = `invalid-comment-id`;
 const validNewOffer: NewOffer = {
   category: [`testCategory`],
   comments: [
     {
       text: `Comment1`,
-      id: `comment-1`,
+      id: validCommentId,
     },
     {
       text: `Comment2`,
@@ -38,7 +40,7 @@ const invalidNewOffer = {
 describe(`Offers API end-points`, () => {
   let validOfferId;
   beforeEach(async () => {
-    validOfferId = await addOfferWithComments();
+    validOfferId = await addNewOffer();
   });
 
   test(`When get offers list status code should be 200`, async () => {
@@ -117,14 +119,25 @@ describe(`Offers API end-points`, () => {
     expect(res.status).toBe(404);
   });
 
-  test(`Should return code 200 when request comments`, async () => {
-    const res = await request(app).get(`/api/offers/${validOfferId}/comments`);
-    expect(res.status).toBe(200);
+  describe(`Comments`, () => {
+    test(`Should return code 200 when request comments`, async () => {
+      const res = await request(app).get(`/api/offers/${validOfferId}/comments`);
+      expect(res.status).toBe(200);
+    });
+
+    test.todo(`Should return code 404 when delete comment with invalid id`);
+
+    test.todo(`Should return code 200 when send valid comment`);
+
+    test.todo(`Should return code 400 when send invalid comment`);
+
+    test.todo(`Should return validation error when send invalid comment`);
+
+    test.todo(`Should return code 200 when delete comment`);
   });
 });
 
-async function addOfferWithComments() {
+async function addNewOffer() {
   const res = await request(app).post(`/api/offers/`).send(validNewOffer);
-
   return res.body.id;
 }
