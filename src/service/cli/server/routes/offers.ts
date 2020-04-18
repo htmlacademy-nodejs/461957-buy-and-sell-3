@@ -1,7 +1,7 @@
 import {Request, Response, Router} from "express";
 import offersService from "../services/offers.service";
 import {HttpCodes} from "../../../../shared/http-codes";
-import {NewOffer, Offer} from "../../../../types/offer";
+import {NewOffer, Offer, OfferType} from "../../../../types/offer";
 import {OfferKey, OfferValidationResponse, ValidationError} from "../../../../types/offer-validation-response";
 import {NotFoundError} from "../errors/not-found-error";
 import {OfferComment} from "../../../../types/offer-comment";
@@ -123,7 +123,7 @@ function getOfferValidationResponse(offer: Offer | NewOffer, skipFields: OfferKe
   if (!offer.title) {
     validationResponse.title = ValidationError.REQUIRED;
   }
-  if (!offer.type) {
+  if (!offer.type || !((offer.type as string) === OfferType.SELL || (offer.type as string) === OfferType.BUY)) {
     validationResponse.type = ValidationError.REQUIRED;
   }
   if (!offer.description) {
