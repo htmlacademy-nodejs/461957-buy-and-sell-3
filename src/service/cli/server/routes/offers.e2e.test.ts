@@ -80,3 +80,10 @@ test(`Should return validation error when send invalid offer`, async () => {
   expect(validationKeys).toContain(`title`);
   expect(validationKeys).toContain(`type`);
 });
+
+test(`Should return code 200 when update offer`, async () => {
+  const res = await request(app)
+    .put(`/api/offers/`)
+    .send({...validNewOffer, id: `test-id-for-object-00-00-00-00-1d-id`});
+  expect(res.status).toBe(200);
+});
