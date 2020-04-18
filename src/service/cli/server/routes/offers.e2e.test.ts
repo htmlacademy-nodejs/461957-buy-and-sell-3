@@ -1,5 +1,16 @@
 import request from "supertest";
 import {app} from "../index";
+import {NewOffer} from "../../../../types/offer";
+
+const validNewOffer: NewOffer = {
+  category: [`testCategory`],
+  comments: [],
+  description: `description`,
+  picture: `picture`,
+  sum: 1,
+  title: `title`,
+  type: `type`,
+};
 
 test(`When get offers list status code should be 200`, async () => {
   const res = await request(app).get(`/api/offers`);
@@ -32,4 +43,9 @@ test(`Should return offer with defined fields`, async () => {
   expect(responseKeys).toContain(`type`);
   expect(responseKeys).toContain(`sum`);
   expect(responseKeys).toContain(`comments`);
+});
+
+test(`Should return offer with id when request to add offer`, async () => {
+  const res = await request(app).post(`/api/offers`).send(validNewOffer);
+  expect(res.body.hasOwnProperty(`id`)).toBe(true);
 });
