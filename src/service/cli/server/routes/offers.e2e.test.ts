@@ -51,6 +51,7 @@ describe(`Offers API end-points`, () => {
     expect(Array.isArray(res.body)).toBe(true);
   });
 
+  // TODO: add new offer
   test(`Should return code 200 when request offer with test id ${validOfferId}`, async () => {
     const res = await request(app).get(`/api/offers/${validOfferId}`);
     expect(res.status).toBe(200);
@@ -61,6 +62,7 @@ describe(`Offers API end-points`, () => {
     expect(res.status).toBe(404);
   });
 
+  // TODO: add new offer
   test(`Should return offer with defined fields`, async () => {
     const res = await request(app).get(`/api/offers/${validOfferId}`);
     const responseKeys = Object.keys(res.body) as string[];
@@ -74,11 +76,13 @@ describe(`Offers API end-points`, () => {
     expect(responseKeys).toContain(`comments`);
   });
 
+  // TODO: add new offer
   test(`Should return code 200 when send valid offer`, async () => {
     const res = await request(app).post(`/api/offers/`).send(validNewOffer);
     expect(res.status).toBe(200);
   });
 
+  // TODO: add new offer
   test(`Should return offer with id when request to add offer`, async () => {
     const res = await request(app).post(`/api/offers/`).send(validNewOffer);
     expect(res.body.hasOwnProperty(`id`)).toBe(true);
@@ -100,6 +104,7 @@ describe(`Offers API end-points`, () => {
     expect(validationKeys).toContain(`type`);
   });
 
+  // TODO: add new offer
   test(`Should return code 200 when update offer`, async () => {
     const res = await request(app)
       .put(`/api/offers/`)
@@ -107,6 +112,7 @@ describe(`Offers API end-points`, () => {
     expect(res.status).toBe(200);
   });
 
+  // TODO: add new offer
   test(`Should return code 200 when delete offer`, async () => {
     const res = await request(app).delete(`/api/offers/${validOfferId}`);
     expect(res.status).toBe(200);
