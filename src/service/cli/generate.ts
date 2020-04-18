@@ -36,11 +36,9 @@ const CommentMessageRescrict = {
   MAX: 8,
 };
 
-let isTestCase: boolean = true;
-
 function generateOffers(count: number, categories: string[], sentences: string[], titles: string[], comments: string[]): Offer[] {
   return new Array(count).fill({}).map(() => ({
-    id: getId(),
+    id: nanoid(),
     category: [categories[getRandomInt(0, categories.length - 1)]],
     description: getDescription(sentences),
     picture: getPictureFileName(getRandomInt(PictureRestrict.MIN, PictureRestrict.MAX)),
@@ -49,14 +47,6 @@ function generateOffers(count: number, categories: string[], sentences: string[]
     sum: getRandomInt(SumRestrict.MIN, SumRestrict.MAX),
     comments: getOffersComments(comments),
   }));
-}
-
-function getId(): string {
-  if (isTestCase) {
-    isTestCase = false;
-    return `test-id-for-object-00-00-00-00-1d-id`;
-  }
-  return nanoid();
 }
 
 function getType(): OfferType {
