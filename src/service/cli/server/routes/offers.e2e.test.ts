@@ -55,6 +55,11 @@ test(`Should return offer with defined fields`, async () => {
   expect(responseKeys).toContain(`comments`);
 });
 
+test(`Should return code 200 when send valid offer`, async () => {
+  const res = await request(app).post(`/api/offers/`).send(validNewOffer);
+  expect(res.status).toBe(200);
+});
+
 test(`Should return offer with id when request to add offer`, async () => {
   const res = await request(app).post(`/api/offers/`).send(validNewOffer);
   expect(res.body.hasOwnProperty(`id`)).toBe(true);
