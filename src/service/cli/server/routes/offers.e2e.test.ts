@@ -14,7 +14,7 @@ const validNewOffer: NewOffer = {
 
 const invalidNewOffer = {
   category: [],
-  comments: [],
+  comments: ``,
   description: ``,
   picture: ``,
   sum: 0,
@@ -23,12 +23,12 @@ const invalidNewOffer = {
 };
 
 test(`When get offers list status code should be 200`, async () => {
-  const res = await request(app).get(`/api/offers`);
+  const res = await request(app).get(`/api/offers/`);
   expect(res.status).toBe(200);
 });
 
 test(`Should return array when request offers`, async () => {
-  const res = await request(app).get(`/api/offers`);
+  const res = await request(app).get(`/api/offers/`);
   expect(Array.isArray(res.body)).toBe(true);
 });
 
@@ -56,6 +56,17 @@ test(`Should return offer with defined fields`, async () => {
 });
 
 test(`Should return offer with id when request to add offer`, async () => {
-  const res = await request(app).post(`/api/offers`).send(validNewOffer);
+  const res = await request(app).post(`/api/offers/`).send(validNewOffer);
   expect(res.body.hasOwnProperty(`id`)).toBe(true);
+});
+
+test(`Should return validation error when send invalid offer`, async () => {
+  const res = await request(app).post(`/api/offers/`).send(invalidNewOffer);
+  const validationKeys = Object.keys(res.body) as string[];
+  expect(validationKeys).toContain(`picture`);
+  expect(validationKeys).toContain(`sum`);
+  expect(validationKeys).toContain(`category`);
+  expect(validationKeys).toContain(`description`);
+  expect(validationKeys).toContain(`title`);
+  expect(validationKeys).toContain(`type`);
 });
