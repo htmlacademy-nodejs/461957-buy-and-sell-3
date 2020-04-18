@@ -62,7 +62,7 @@ offersRouter.delete(`/:id`, async (req: Request, res: Response) => {
   } catch (e) {
     if (e instanceof NotFoundError) {
       console.log(e);
-      return res.status(HttpCodes.NOT_FOUND).send();
+      res.status(HttpCodes.NOT_FOUND).send();
     }
     console.error(e);
     res.status(HttpCodes.BAD_REQUEST).send();
@@ -85,7 +85,7 @@ offersRouter.delete(`/:id/comments/:commentId`, async (req: Request, res: Respon
   } catch (e) {
     if (e instanceof NotFoundError) {
       console.log(e);
-      return res.status(HttpCodes.NOT_FOUND).send();
+      res.status(HttpCodes.NOT_FOUND).send();
     }
     console.log(e);
     res.status(HttpCodes.BAD_REQUEST).send();
