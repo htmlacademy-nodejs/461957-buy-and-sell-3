@@ -87,11 +87,11 @@ class MockDataProviderService implements DataProvider {
     return;
   }
 
-  async createComment(offerId: string, comment: OfferComment): Promise<Offer> {
+  async createComment(offerId: string, comment: OfferComment): Promise<OfferComment> {
     const offer = await this.getOfferById(offerId);
     const newComment = {...comment, id: nanoid()};
     offer.comments.push(newComment);
-    return offer;
+    return newComment;
   }
 
   async searchByOfferTitle(query: string): Promise<Offer[]> {

@@ -42,7 +42,7 @@ class OffersService {
     return this._dataProviderService.deleteCommentById(offerId, commentId);
   }
 
-  public async createComment(offerId: string, comment: OfferComment): Promise<Offer> {
+  public async createComment(offerId: string, comment: OfferComment): Promise<OfferComment> {
     return this._dataProviderService.createComment(offerId, comment);
   }
 
