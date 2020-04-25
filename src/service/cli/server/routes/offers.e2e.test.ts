@@ -42,6 +42,9 @@ describe(`Offers API end-points`, () => {
   beforeEach(async () => {
     validOfferId = await addNewOffer();
   });
+  afterEach(async () => {
+    await deleteOffer(validOfferId);
+  });
 
   test(`When get offers list status code should be 200`, async () => {
     const res = await request(app).get(`/api/offers/`);
@@ -125,19 +128,29 @@ describe(`Offers API end-points`, () => {
       expect(res.status).toBe(200);
     });
 
-    test.todo(`Should return code 404 when delete comment with invalid id`);
+    test(`Should return code 404 when delete comment with invalid id`, async () => {
+      const res = await request(app).delete(`/api/offers/${validOfferId}/comments/${invalidCommentId}`);
+      expect(res.status).toBe(404);
+    });
+
+    test(`Should return code 200 when delete comment`, async () => {
+      const res = await request(app).delete(`/api/offers/${validOfferId}/comments/${validCommentId}`);
+      expect(res.status).toBe(200);
+    });
 
     test.todo(`Should return code 200 when send valid comment`);
 
     test.todo(`Should return code 400 when send invalid comment`);
 
     test.todo(`Should return validation error when send invalid comment`);
-
-    test.todo(`Should return code 200 when delete comment`);
   });
 });
 
-async function addNewOffer() {
+async function addNewOffer(): Promise<string> {
   const res = await request(app).post(`/api/offers/`).send(validNewOffer);
   return res.body.id;
+}
+
+async function deleteOffer(id: string): Promise<void> {
+  await request(app).delete(`/api/offers/${id}`);
 }
