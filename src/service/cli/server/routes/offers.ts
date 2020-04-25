@@ -91,7 +91,7 @@ offersRouter.delete(`/:id/comments/:commentId`, async (req: Request, res: Respon
     res.status(HttpCodes.BAD_REQUEST).send();
   }
 });
-offersRouter.put(`/:id/comments`, async (req: Request, res: Response) => {
+offersRouter.post(`/:id/comments`, async (req: Request, res: Response) => {
   const offerId = req.params.id;
   const comment = req.body as OfferComment;
   const validationResponse = getCommentValidationResponse(comment);
