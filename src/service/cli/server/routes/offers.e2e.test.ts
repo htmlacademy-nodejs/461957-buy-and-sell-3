@@ -1,6 +1,7 @@
 import request from "supertest";
 import {app} from "../index";
 import {NewOffer, OfferType} from "../../../../types/offer";
+import {OfferComment} from "../../../../types/offer-comment";
 
 const invalidOfferId = `invalid-id`;
 const validCommentId = `comment-1`;
@@ -26,6 +27,12 @@ const validNewOffer: NewOffer = {
   sum: 1,
   title: `title`,
   type: OfferType.SELL,
+};
+const validComment: Partial<OfferComment> = {
+  text: `newValidComment`,
+};
+const inValidComment: Partial<OfferComment> = {
+  text: ``,
 };
 const invalidNewOffer = {
   category: [],
@@ -138,11 +145,26 @@ describe(`Offers API end-points`, () => {
       expect(res.status).toBe(200);
     });
 
-    test.todo(`Should return code 200 when send valid comment`);
+    test(`Should return code 400 when send invalid comment`, async () => {
+      const res = await request(app).post(`/api/offers/${validOfferId}/comments`).send(inValidComment);
+      expect(res.status).toBe(400);
+    });
 
-    test.todo(`Should return code 400 when send invalid comment`);
+    test(`Should return code 200 when send valid comment`, async () => {
+      const res = await request(app).post(`/api/offers/${validOfferId}/comments`).send(validComment);
+      expect(res.status).toBe(200);
+    });
 
-    test.todo(`Should return validation error when send invalid comment`);
+    test(`Should return comment with id when send valid comment`, async () => {
+      const res = await request(app).post(`/api/offers/${validOfferId}/comments`).send(validComment);
+      expect(res.body.hasOwnProperty(`id`)).toBe(true);
+    });
+
+    test(`Should return validation error when send invalid comment`, async () => {
+      const res = await request(app).post(`/api/offers/${validOfferId}/comments`).send(inValidComment);
+      const validationKeys = Object.keys(res.body) as string[];
+      expect(validationKeys).toContain(`text`);
+    });
   });
 });
 
