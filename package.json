@@ -5,9 +5,10 @@
   "main": "./src/service/service.ts",
   "scripts": {
     "start": "ts-node src/service/service.ts",
+    "start:debug": "ts-node src/service/service.ts",
     "start-front-server": "ts-node src/express/index.ts",
     "server": "nodemon",
-    "test": "npm run eslint",
+    "test": "npm run test::rest",
     "test:rest": "jest src/service/cli/server",
     "eslint": "eslint --ext .js,.ts src/",
     "nodemon": "npm run nodemon:data & npm run nodemon:front",
