@@ -28,4 +28,4 @@ app.use(`/500`, error500Router);
 app.use(`/sign-up`, signUpRouter);
 app.use(`*`, error404Router);
 
-app.listen(SSR_PORT);
+app.listen(SSR_PORT, () => console.log(`SSR listen on port ${SSR_PORT}`));
