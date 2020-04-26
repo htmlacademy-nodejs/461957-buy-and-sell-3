@@ -1,13 +1,11 @@
-import {Express} from "express";
+import express from "express";
 import apiRouter from "./routes/api";
 import {DEFAULT_PORT} from "../../../shared/variables";
 import {getLogger} from "./logger";
+import * as bodyParser from "body-parser";
+import chalk from "chalk";
 
-const express = require(`express`);
-const bodyParser = require(`body-parser`);
-const chalk = require(`chalk`);
-
-export const app: Express = express();
+export const app = express();
 const logger = getLogger();
 
 app.use(bodyParser.json());
