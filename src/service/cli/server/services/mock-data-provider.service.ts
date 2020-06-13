@@ -5,6 +5,9 @@ import {config} from "../config";
 import nanoid from "nanoid";
 import {NotFoundError} from "../errors/not-found-error";
 import {OfferComment} from "../../../../types/offer-comment";
+import {getLogger} from "../logger";
+
+const logger = getLogger();
 
 class MockDataProviderService implements DataProvider {
   private sessionOffers: Offer[] = [];
@@ -18,7 +21,7 @@ class MockDataProviderService implements DataProvider {
       }
       return this.sessionOffers.filter((offer) => !this.deletedOffersId.includes(offer.id));
     } catch (e) {
-      console.error(e);
+      logger.error(e);
       return [];
     }
   }
