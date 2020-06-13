@@ -19,3 +19,7 @@ coverage/
 
 # Mocks
 mocks.json
+
+# Logs
+src/service/logs/*
+!src/service/logs/.gitkeep
