@@ -6,8 +6,10 @@ import {OfferKey, OfferValidationResponse, ValidationError} from "../../../../ty
 import {NotFoundError} from "../errors/not-found-error";
 import {OfferComment} from "../../../../types/offer-comment";
 import {CommentValidationResponse} from "../../../../types/comment-validation-response";
+import {getLogger} from "../logger";
 
 const offersRouter: Router = Router();
+const logger = getLogger();
 
 offersRouter.get(`/`, async (req: Request, res: Response) => {
   res.json(await offersService.getOffers());
@@ -22,7 +24,7 @@ offersRouter.get(`/:id`, async (req: Request, res: Response) => {
       res.status(HttpCodes.NOT_FOUND).send();
     }
   } catch (e) {
-    console.error(e);
+    logger.error(e);
     res.status(HttpCodes.BAD_REQUEST).send();
   }
 });
@@ -36,7 +38,7 @@ offersRouter.post(`/`, async (req: Request, res: Response) => {
   try {
     res.send(await offersService.addOffer(offer));
   } catch (e) {
-    console.error(e);
+    logger.error(e);
     res.status(HttpCodes.BAD_REQUEST).send();
   }
 });
@@ -50,7 +52,7 @@ offersRouter.put(`/`, async (req: Request, res: Response) => {
   try {
     res.send(await offersService.updateOffer(offer));
   } catch (e) {
-    console.error(e);
+    logger.error(e);
     res.status(HttpCodes.BAD_REQUEST).send();
   }
 });
@@ -61,11 +63,12 @@ offersRouter.delete(`/:id`, async (req: Request, res: Response) => {
     res.send();
   } catch (e) {
     if (e instanceof NotFoundError) {
-      console.log(e);
+      logger.log(e);
       res.status(HttpCodes.NOT_FOUND).send();
+    } else {
+      logger.error(e);
+      res.status(HttpCodes.BAD_REQUEST).send();
     }
-    console.error(e);
-    res.status(HttpCodes.BAD_REQUEST).send();
   }
 });
 offersRouter.get(`/:id/comments`, async (req: Request, res: Response) => {
@@ -73,7 +76,7 @@ offersRouter.get(`/:id/comments`, async (req: Request, res: Response) => {
   try {
     res.send(await offersService.getOfferComments(offerId));
   } catch (e) {
-    console.log(e);
+    logger.log(e);
     res.status(HttpCodes.BAD_REQUEST).send();
   }
 });
@@ -84,11 +87,12 @@ offersRouter.delete(`/:id/comments/:commentId`, async (req: Request, res: Respon
     res.send(await offersService.deleteCommentById(offerId, commentId));
   } catch (e) {
     if (e instanceof NotFoundError) {
-      console.error(e);
+      logger.error(e);
       res.status(HttpCodes.NOT_FOUND).send();
+    } else {
+      logger.error(e);
+      res.status(HttpCodes.BAD_REQUEST).send();
     }
-    console.error(e);
-    res.status(HttpCodes.BAD_REQUEST).send();
   }
 });
 offersRouter.post(`/:id/comments`, async (req: Request, res: Response) => {
@@ -103,10 +107,10 @@ offersRouter.post(`/:id/comments`, async (req: Request, res: Response) => {
     res.send(await offersService.createComment(offerId, comment));
   } catch (e) {
     if (e instanceof NotFoundError) {
-      console.log(e);
+      logger.log(e);
       res.status(HttpCodes.NOT_FOUND).send();
     } else {
-      console.log(e);
+      logger.log(e);
       res.status(HttpCodes.BAD_REQUEST).send();
     }
   }
