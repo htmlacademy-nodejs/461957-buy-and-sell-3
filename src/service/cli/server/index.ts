@@ -13,6 +13,10 @@ app.use((req, res, next) => {
   next();
 });
 app.use(`/api`, apiRouter);
+app.use((req, res) => {
+  res.status(404).send(`Page not found`);
+  logger.error(`End request with error ${res.statusCode}`);
+});
 
 export function runServer(args?): void {
   const [customPort] = args;
