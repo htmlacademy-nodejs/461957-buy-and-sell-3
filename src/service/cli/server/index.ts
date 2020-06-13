@@ -16,6 +16,7 @@ app.use(`/api`, apiRouter);
 app.use((req, res) => {
   res.status(404).send(`Page not found`);
   logger.error(`End request with error ${res.statusCode}`);
+  logger.info(`End request with status code ${res.statusCode}`);
 });
 
 export function runServer(args?): void {

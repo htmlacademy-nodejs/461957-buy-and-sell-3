@@ -22,10 +22,12 @@ offersRouter.get(`/:id`, async (req: Request, res: Response) => {
       res.json(offer);
     } else {
       res.status(HttpCodes.NOT_FOUND).send();
+      logger.info(`End request with status code ${res.statusCode}`);
     }
   } catch (e) {
     logger.error(e);
     res.status(HttpCodes.BAD_REQUEST).send();
+    logger.info(`End request with status code ${res.statusCode}`);
   }
 });
 offersRouter.post(`/`, async (req: Request, res: Response) => {
@@ -33,13 +35,16 @@ offersRouter.post(`/`, async (req: Request, res: Response) => {
   const validationResponse = getOfferValidationResponse(offer, [`id`]);
   if (validationResponse !== null) {
     res.status(HttpCodes.BAD_REQUEST).send(validationResponse);
+    logger.info(`End request with status code ${res.statusCode}`);
     return;
   }
   try {
     res.send(await offersService.addOffer(offer));
+    logger.info(`End request with status code ${res.statusCode}`);
   } catch (e) {
     logger.error(e);
     res.status(HttpCodes.BAD_REQUEST).send();
+    logger.info(`End request with status code ${res.statusCode}`);
   }
 });
 offersRouter.put(`/`, async (req: Request, res: Response) => {
@@ -47,13 +52,16 @@ offersRouter.put(`/`, async (req: Request, res: Response) => {
   const validationResponse = getOfferValidationResponse(offer);
   if (validationResponse !== null) {
     res.status(HttpCodes.BAD_REQUEST).send(validationResponse);
+    logger.info(`End request with status code ${res.statusCode}`);
     return;
   }
   try {
     res.send(await offersService.updateOffer(offer));
+    logger.info(`End request with status code ${res.statusCode}`);
   } catch (e) {
     logger.error(e);
     res.status(HttpCodes.BAD_REQUEST).send();
+    logger.info(`End request with status code ${res.statusCode}`);
   }
 });
 offersRouter.delete(`/:id`, async (req: Request, res: Response) => {
@@ -61,13 +69,16 @@ offersRouter.delete(`/:id`, async (req: Request, res: Response) => {
   try {
     await offersService.deleteOfferById(offerId);
     res.send();
+    logger.info(`End request with status code ${res.statusCode}`);
   } catch (e) {
     if (e instanceof NotFoundError) {
       logger.log(e);
       res.status(HttpCodes.NOT_FOUND).send();
+      logger.info(`End request with status code ${res.statusCode}`);
     } else {
       logger.error(e);
       res.status(HttpCodes.BAD_REQUEST).send();
+      logger.info(`End request with status code ${res.statusCode}`);
     }
   }
 });
@@ -75,9 +86,11 @@ offersRouter.get(`/:id/comments`, async (req: Request, res: Response) => {
   const offerId = req.params.id;
   try {
     res.send(await offersService.getOfferComments(offerId));
+    logger.info(`End request with status code ${res.statusCode}`);
   } catch (e) {
     logger.log(e);
     res.status(HttpCodes.BAD_REQUEST).send();
+    logger.info(`End request with status code ${res.statusCode}`);
   }
 });
 offersRouter.delete(`/:id/comments/:commentId`, async (req: Request, res: Response) => {
@@ -85,13 +98,16 @@ offersRouter.delete(`/:id/comments/:commentId`, async (req: Request, res: Respon
   const commentId = req.params.commentId;
   try {
     res.send(await offersService.deleteCommentById(offerId, commentId));
+    logger.info(`End request with status code ${res.statusCode}`);
   } catch (e) {
     if (e instanceof NotFoundError) {
       logger.error(e);
       res.status(HttpCodes.NOT_FOUND).send();
+      logger.info(`End request with status code ${res.statusCode}`);
     } else {
       logger.error(e);
       res.status(HttpCodes.BAD_REQUEST).send();
+      logger.info(`End request with status code ${res.statusCode}`);
     }
   }
 });
@@ -101,17 +117,21 @@ offersRouter.post(`/:id/comments`, async (req: Request, res: Response) => {
   const validationResponse = getCommentValidationResponse(comment);
   if (validationResponse !== null) {
     res.status(HttpCodes.BAD_REQUEST).send(validationResponse);
+    logger.info(`End request with status code ${res.statusCode}`);
     return;
   }
   try {
     res.send(await offersService.createComment(offerId, comment));
+    logger.info(`End request with status code ${res.statusCode}`);
   } catch (e) {
     if (e instanceof NotFoundError) {
       logger.log(e);
       res.status(HttpCodes.NOT_FOUND).send();
+      logger.info(`End request with status code ${res.statusCode}`);
     } else {
       logger.log(e);
       res.status(HttpCodes.BAD_REQUEST).send();
+      logger.info(`End request with status code ${res.statusCode}`);
     }
   }
 });
