@@ -1,7 +1,7 @@
 import {Request, Response, Router} from "express";
 import offersService from "../services/offers.service";
 import {HttpCodes} from "../../../../shared/http-codes";
-import {Offer} from "../../../../types/offer";
+import {NewOffer, Offer, OfferType} from "../../../../types/offer";
 import {OfferKey, OfferValidationResponse, ValidationError} from "../../../../types/offer-validation-response";
 import {NotFoundError} from "../errors/not-found-error";
 import {OfferComment} from "../../../../types/offer-comment";
@@ -27,7 +27,7 @@ offersRouter.get(`/:id`, async (req: Request, res: Response) => {
   }
 });
 offersRouter.post(`/`, async (req: Request, res: Response) => {
-  const offer = req.body as Offer;
+  const offer = req.body as NewOffer;
   const validationResponse = getOfferValidationResponse(offer, [`id`]);
   if (validationResponse !== null) {
     res.status(HttpCodes.BAD_REQUEST).send(validationResponse);
@@ -62,7 +62,7 @@ offersRouter.delete(`/:id`, async (req: Request, res: Response) => {
   } catch (e) {
     if (e instanceof NotFoundError) {
       console.log(e);
-      return res.status(HttpCodes.NOT_FOUND).send();
+      res.status(HttpCodes.NOT_FOUND).send();
     }
     console.error(e);
     res.status(HttpCodes.BAD_REQUEST).send();
@@ -84,14 +84,14 @@ offersRouter.delete(`/:id/comments/:commentId`, async (req: Request, res: Respon
     res.send(await offersService.deleteCommentById(offerId, commentId));
   } catch (e) {
     if (e instanceof NotFoundError) {
-      console.log(e);
-      return res.status(HttpCodes.NOT_FOUND).send();
+      console.error(e);
+      res.status(HttpCodes.NOT_FOUND).send();
     }
-    console.log(e);
+    console.error(e);
     res.status(HttpCodes.BAD_REQUEST).send();
   }
 });
-offersRouter.put(`/:id/comments`, async (req: Request, res: Response) => {
+offersRouter.post(`/:id/comments`, async (req: Request, res: Response) => {
   const offerId = req.params.id;
   const comment = req.body as OfferComment;
   const validationResponse = getCommentValidationResponse(comment);
@@ -112,7 +112,7 @@ offersRouter.put(`/:id/comments`, async (req: Request, res: Response) => {
   }
 });
 
-function getOfferValidationResponse(offer: Offer, skipFields: OfferKey[] = []): OfferValidationResponse | null {
+function getOfferValidationResponse(offer: Offer | NewOffer, skipFields: OfferKey[] = []): OfferValidationResponse | null {
   const validationResponse: OfferValidationResponse = {};
   if (!offer.id && !skipFields.includes(`id`)) {
     validationResponse.id = ValidationError.REQUIRED;
@@ -123,7 +123,7 @@ function getOfferValidationResponse(offer: Offer, skipFields: OfferKey[] = []): 
   if (!offer.title) {
     validationResponse.title = ValidationError.REQUIRED;
   }
-  if (!offer.type) {
+  if (!offer.type || !((offer.type as string) === OfferType.SELL || (offer.type as string) === OfferType.BUY)) {
     validationResponse.type = ValidationError.REQUIRED;
   }
   if (!offer.description) {

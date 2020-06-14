@@ -1,6 +1,5 @@
 import {CliAction} from "../../types/cli-action";
-
-const runServer = require(`./server/index`);
+import {runServer} from "./server/index";
 
 const cliAction: CliAction = {
   name: `--server`,

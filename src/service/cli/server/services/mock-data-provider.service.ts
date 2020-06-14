@@ -1,5 +1,5 @@
 import {DataProvider} from "../../../../types/data-provider";
-import {Offer} from "../../../../types/offer";
+import {NewOffer, Offer} from "../../../../types/offer";
 import {promises as fs} from "fs";
 import {config} from "../config";
 import nanoid from "nanoid";
@@ -40,7 +40,7 @@ class MockDataProviderService implements DataProvider {
     }
   }
 
-  async addOffer(offer: Offer): Promise<Offer> {
+  async addOffer(offer: NewOffer): Promise<Offer> {
     const newOffer = {...offer, id: nanoid()};
     this.sessionOffers.push(newOffer);
     return Promise.resolve(newOffer);
@@ -87,11 +87,11 @@ class MockDataProviderService implements DataProvider {
     return;
   }
 
-  async createComment(offerId: string, comment: OfferComment): Promise<Offer> {
+  async createComment(offerId: string, comment: OfferComment): Promise<OfferComment> {
     const offer = await this.getOfferById(offerId);
     const newComment = {...comment, id: nanoid()};
     offer.comments.push(newComment);
-    return offer;
+    return newComment;
   }
 
   async searchByOfferTitle(query: string): Promise<Offer[]> {

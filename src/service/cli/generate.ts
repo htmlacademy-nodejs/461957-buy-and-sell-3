@@ -1,5 +1,5 @@
 import {CliAction} from "../../types/cli-action";
-import {Offer} from "../../types/offer";
+import {Offer, OfferType} from "../../types/offer";
 import {OfferComment} from "../../types/offer-comment";
 
 const fs = require(`fs`).promises;
@@ -14,10 +14,7 @@ const {ExitCode} = require(`../../constants`);
 
 const DEFAULT_COUNT = 1;
 const FILE_NAME = `mocks.json`;
-const OfferType = {
-  offer: `offer`,
-  sale: `sale`,
-};
+
 const SumRestrict = {
   MIN: 1000,
   MAX: 100000,
@@ -46,16 +43,18 @@ function generateOffers(count: number, categories: string[], sentences: string[]
     description: getDescription(sentences),
     picture: getPictureFileName(getRandomInt(PictureRestrict.MIN, PictureRestrict.MAX)),
     title: titles[getRandomInt(0, titles.length - 1)],
-    type: Object.keys(OfferType)[Math.floor(Math.random() * Object.keys(OfferType).length)],
+    type: getType(),
     sum: getRandomInt(SumRestrict.MIN, SumRestrict.MAX),
     comments: getOffersComments(comments),
   }));
 }
 
+function getType(): OfferType {
+  return Math.random() > 0.5 ? OfferType.BUY : OfferType.SELL;
+}
+
 function getDescription(sentences: string[]): string {
-  return shuffle(sentences)
-    .splice(0, getRandomInt(DescriptionRestrict.MIN, DescriptionRestrict.MAX))
-    .join(` `);
+  return shuffle(sentences).splice(0, getRandomInt(DescriptionRestrict.MIN, DescriptionRestrict.MAX)).join(` `);
 }
 
 function getPictureFileName(amount: number): string {
@@ -65,9 +64,7 @@ function getPictureFileName(amount: number): string {
 function getComment(comments: string[]): OfferComment {
   return {
     id: nanoid(),
-    text: shuffle(comments)
-      .splice(0, getRandomInt(CommentMessageRescrict.MIN, CommentMessageRescrict.MAX))
-      .join(` `),
+    text: shuffle(comments).splice(0, getRandomInt(CommentMessageRescrict.MIN, CommentMessageRescrict.MAX)).join(` `),
   };
 }
 
@@ -84,10 +81,10 @@ async function readMockFile(filePath: string): Promise<string[]> {
       .replace(/(\r\n)/gm, `\n`)
       .replace(/(\r)/gm, `\n`)
       .split(`\n`)
-      .filter(value => !!value.length);
+      .filter((value) => !!value.length);
   } catch (e) {
     console.error(chalk.red(`Filed to read ${filePath}`));
-    console.error(e)
+    console.error(e);
     return [];
   }
 }

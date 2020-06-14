@@ -7,12 +7,18 @@ parserOptions:
 env:
   es6: true
   node: true
+  jest: true
 
 extends: 'htmlacademy/node'
 parser: '@typescript-eslint/parser'
 plugins:
   - '@typescript-eslint'
+  - 'jest'
 rules:
   arrow-parens: off
   no-unused-vars: off
   '@typescript-eslint/no-unused-vars': error
+  '@typescript-eslint/explicit-function-return-type': [error]
+
+ignorePatterns:
+  - 'jest.config.js'
